@@ -1,0 +1,15 @@
+[Unit]
+Description=Qadriyat School Registration Bot
+After=network.target
+
+[Service]
+Type=simple
+User=obidjonov_abdulboriy
+WorkingDirectory=/home/obidjonov_abdulboriy/Desktop/qadriyat_school_bot
+ExecStart=/home/obidjonov_abdulboriy/Desktop/qadriyat_school_bot/venv/bin/python bot.py
+EnvironmentFile=/home/obidjonov_abdulboriy/Desktop/qadriyat_school_bot/.env
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
