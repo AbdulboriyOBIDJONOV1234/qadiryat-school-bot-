@@ -27,8 +27,8 @@ async def admin_start(message: Message):
 
 @admin_router.message(F.text.in_({"📊 Statistika", "/stats"}))
 async def admin_stats(message: Message):
-    total = count_all()
-    today = count_today()
+    total = await count_all()
+    today = await count_today()
     await message.answer(
         f"📋 <b>Jami arizalar:</b> {total} ta\n"
         f"📅 <b>Bugun:</b> {today} ta"
@@ -37,7 +37,7 @@ async def admin_stats(message: Message):
 
 @admin_router.message(F.text.in_({"📥 Excel hisobot", "/export"}))
 async def admin_export(message: Message):
-    rows = get_all_registrations()
+    rows = await get_all_registrations()
     if not rows:
         await message.answer("Hozircha hech kim ro'yxatdan o'tmagan.")
         return

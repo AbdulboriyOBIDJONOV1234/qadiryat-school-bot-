@@ -1,17 +1,21 @@
-import sqlite3
 from datetime import date
-from pathlib import Path
 
-DB_PATH = Path(__file__).parent / "registrations.db"
+import asyncpg
+
+from config import DATABASE_URL
+
+_pool: asyncpg.Pool | None = None
 
 
-def init_db():
-    with sqlite3.connect(DB_PATH) as conn:
-        conn.execute(
+async def init_db():
+    global _pool
+    _pool = await asyncpg.create_pool(DATABASE_URL, min_size=1, max_size=5, statement_cache_size=0)
+    async with _pool.acquire() as conn:
+        await conn.execute(
             """
             CREATE TABLE IF NOT EXISTS registrations (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                telegram_id INTEGER NOT NULL,
+                id SERIAL PRIMARY KEY,
+                telegram_id BIGINT NOT NULL,
                 username TEXT,
                 full_name TEXT NOT NULL,
                 birth_date TEXT NOT NULL,
@@ -22,46 +26,42 @@ def init_db():
             )
             """
         )
-        conn.commit()
 
 
-def add_registration(telegram_id, username, full_name, birth_date, grade, location, phone) -> int:
+async def add_registration(telegram_id, username, full_name, birth_date, grade, location, phone) -> int:
     created_at = date.today().isoformat()
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.execute(
+    async with _pool.acquire() as conn:
+        return await conn.fetchval(
             """
             INSERT INTO registrations
                 (telegram_id, username, full_name, birth_date, grade, location, phone, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+            RETURNING id
             """,
-            (telegram_id, username, full_name, birth_date, grade, location, phone, created_at),
+            telegram_id, username, full_name, birth_date, grade, location, phone, created_at,
         )
-        conn.commit()
-        return cursor.lastrowid
 
 
-def get_all_registrations():
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.execute(
+async def get_all_registrations():
+    async with _pool.acquire() as conn:
+        rows = await conn.fetch(
             """
             SELECT id, full_name, birth_date, grade, location, phone, created_at
             FROM registrations
             ORDER BY id
             """
         )
-        return cursor.fetchall()
+        return [tuple(row) for row in rows]
 
 
-def count_all() -> int:
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.execute("SELECT COUNT(*) FROM registrations")
-        return cursor.fetchone()[0]
+async def count_all() -> int:
+    async with _pool.acquire() as conn:
+        return await conn.fetchval("SELECT COUNT(*) FROM registrations")
 
 
-def count_today() -> int:
+async def count_today() -> int:
     today = date.today().isoformat()
-    with sqlite3.connect(DB_PATH) as conn:
-        cursor = conn.execute(
-            "SELECT COUNT(*) FROM registrations WHERE created_at = ?", (today,)
+    async with _pool.acquire() as conn:
+        return await conn.fetchval(
+            "SELECT COUNT(*) FROM registrations WHERE created_at = $1", today
         )
-        return cursor.fetchone()[0]

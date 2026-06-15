@@ -212,7 +212,7 @@ async def process_phone_invalid(message: Message):
 async def finish_registration(message: Message, state: FSMContext, bot: Bot, phone: str):
     data = await state.get_data()
     full_name = f"{data['last_name']} {data['first_name']} {data['patronymic']}"
-    reg_id = add_registration(
+    reg_id = await add_registration(
         telegram_id=message.from_user.id,
         username=message.from_user.username,
         full_name=full_name,

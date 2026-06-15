@@ -6,9 +6,17 @@ load_dotenv()
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "")
 ADMIN_ID = int(os.getenv("ADMIN_ID", "8104665298"))
+DATABASE_URL = os.getenv("DATABASE_URL", "")
 
 if not BOT_TOKEN:
     raise RuntimeError(
         "BOT_TOKEN topilmadi! '.env' faylini yarating (.env.example dan nusxa "
         "oling) va unga BOT_TOKEN=... qatorini qo'shing."
+    )
+
+if not DATABASE_URL:
+    raise RuntimeError(
+        "DATABASE_URL topilmadi! '.env' fayliga Postgres ulanish manzilini "
+        "(masalan, Neon'dan olingan connection string) DATABASE_URL=... "
+        "ko'rinishida qo'shing."
     )

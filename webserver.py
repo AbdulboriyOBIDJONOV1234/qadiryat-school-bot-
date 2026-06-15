@@ -71,7 +71,7 @@ async def api_register(request: web.Request) -> web.Response:
     if errors:
         return web.json_response({"ok": False, "errors": errors}, headers=CORS_HEADERS)
 
-    reg_id = add_registration(
+    reg_id = await add_registration(
         telegram_id=0,
         username="web",
         full_name=full_name,
