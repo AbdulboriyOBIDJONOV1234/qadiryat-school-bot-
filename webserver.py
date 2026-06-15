@@ -9,6 +9,7 @@ from validators import (
     is_valid_full_name,
     is_valid_location,
     normalize_phone,
+    parse_birth_date,
     parse_grade,
 )
 
@@ -60,6 +61,10 @@ async def api_register(request: web.Request) -> web.Response:
     if phone is None:
         errors["phone"] = "Telefon raqam noto'g'ri. Masalan: +998901234567."
 
+    birth_date = parse_birth_date(str(data.get("birth_date", "")))
+    if birth_date is None:
+        errors["birth_date"] = "Tug'ilgan sanangizni to'g'ri kiriting."
+
     grade = parse_grade(str(data.get("grade", "")))
     if grade is None:
         errors["grade"] = "Sinfni 1 dan 11 gacha tanlang."
@@ -75,7 +80,7 @@ async def api_register(request: web.Request) -> web.Response:
         telegram_id=0,
         username="web",
         full_name=full_name,
-        birth_date="-",
+        birth_date=birth_date.strftime("%d.%m.%Y"),
         grade=grade,
         location=location,
         phone=phone,
@@ -84,6 +89,7 @@ async def api_register(request: web.Request) -> web.Response:
     admin_text = (
         f"🌐 <b>Veb-sayt orqali yangi ariza #{reg_id}</b>\n\n"
         f"👤 <b>F.I.Sh:</b> {full_name}\n"
+        f"🎂 <b>Tug'ilgan sana:</b> {birth_date.strftime('%d.%m.%Y')}\n"
         f"🏫 <b>Sinf:</b> {grade}-sinf\n"
         f"📍 <b>Manzil:</b> {location}\n"
         f"📞 <b>Telefon:</b> {phone}\n"

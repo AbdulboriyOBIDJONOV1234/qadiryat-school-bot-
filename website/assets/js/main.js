@@ -46,6 +46,7 @@ function initRegistrationForm() {
     const payload = {
       full_name: form.full_name.value.trim(),
       phone: form.phone.value.trim(),
+      birth_date: formatBirthDate(form.birth_date.value),
       grade: form.grade.value,
       location: form.location.value.trim(),
     };
@@ -79,6 +80,13 @@ function initRegistrationForm() {
       submitBtn.textContent = "YUBORISH";
     }
   });
+}
+
+function formatBirthDate(isoDate) {
+  const parts = isoDate.split("-");
+  if (parts.length !== 3) return "";
+  const [year, month, day] = parts;
+  return `${day}.${month}.${year}`;
 }
 
 function showErrors(form, errors) {

@@ -610,6 +610,10 @@ section {
   margin-bottom: var(--space-lg);
 }
 
+.field-full {
+  grid-column: 1 / -1;
+}
+
 @media (max-width: 640px) {
   .form-grid { grid-template-columns: 1fr; }
   .reg-card { padding: var(--space-xl) var(--space-lg); }

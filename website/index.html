@@ -217,6 +217,11 @@
           </div>
           <div class="form-grid">
             <div class="field">
+              <label for="birth_date">Tug'ilgan sana</label>
+              <input type="date" id="birth_date" name="birth_date" required>
+              <div class="field-error" data-error-for="birth_date"></div>
+            </div>
+            <div class="field">
               <label for="grade">Sinfni tanlang</label>
               <select id="grade" name="grade" required>
                 <option value="1">1-sinf</option>
@@ -233,7 +238,9 @@
               </select>
               <div class="field-error" data-error-for="grade"></div>
             </div>
-            <div class="field">
+          </div>
+          <div class="form-grid">
+            <div class="field field-full">
               <label for="location">Yashash manzili</label>
               <input type="text" id="location" name="location" placeholder="Manzilingizni kiriting" required>
               <div class="field-error" data-error-for="location"></div>
