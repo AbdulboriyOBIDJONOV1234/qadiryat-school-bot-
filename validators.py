@@ -11,6 +11,13 @@ def is_valid_name_part(text: str) -> bool:
     return all(ch.isalpha() or ch in "'’ʼʻ`-" for ch in text)
 
 
+def is_valid_full_name(text: str) -> bool:
+    text = text.strip()
+    if not (2 <= len(text) <= 100):
+        return False
+    return all(ch.isalpha() or ch in " '’ʼʻ`-" for ch in text)
+
+
 def parse_birth_date(text: str):
     text = text.strip()
     parsed = None
