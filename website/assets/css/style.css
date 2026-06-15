@@ -228,6 +228,7 @@ section {
   width: 44px;
   height: 44px;
   border-radius: var(--radius-full);
+  animation: brand-logo-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .nav-brand span {
@@ -236,6 +237,25 @@ section {
   font-size: 18px;
   line-height: 1.25;
   color: var(--color-primary);
+  animation: brand-text-in 0.7s ease-out 0.35s both;
+}
+
+@keyframes brand-logo-in {
+  from { opacity: 0; transform: scale(0.3) rotate(-30deg); }
+  60% { opacity: 1; transform: scale(1.08) rotate(4deg); }
+  to { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+@keyframes brand-text-in {
+  from { opacity: 0; transform: translateX(-18px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-brand img,
+  .nav-brand span {
+    animation: none;
+  }
 }
 
 .nav-links {
@@ -319,19 +339,16 @@ section {
   min-height: 560px;
   overflow: hidden;
   color: var(--color-on-primary);
-  background-size: cover;
-  background-position: center;
 }
 
-.hero::after {
-  content: "";
+.hero-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image: inherit;
   background-size: cover;
   background-position: center;
-  animation: hero-zoom 24s ease-in-out infinite alternate;
+  transform: scale(1);
+  animation: hero-zoom 18s ease-in-out infinite alternate;
 }
 
 .hero::before {
@@ -349,11 +366,11 @@ section {
 
 @keyframes hero-zoom {
   from { transform: scale(1); }
-  to { transform: scale(1.12); }
+  to { transform: scale(1.15); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero::after { animation: none; }
+  .hero-bg { animation: none; }
 }
 
 .hero-content {
