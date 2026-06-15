@@ -317,21 +317,43 @@ section {
   display: flex;
   align-items: center;
   min-height: 560px;
+  overflow: hidden;
   color: var(--color-on-primary);
   background-size: cover;
   background-position: center;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: inherit;
+  background-size: cover;
+  background-position: center;
+  animation: hero-zoom 24s ease-in-out infinite alternate;
 }
 
 .hero::before {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 1;
   background: linear-gradient(135deg, rgba(0, 10, 30, 0.88) 0%, rgba(0, 33, 71, 0.6) 60%, rgba(0, 33, 71, 0.35) 100%);
 }
 
 .hero .container {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+}
+
+@keyframes hero-zoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.12); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero::after { animation: none; }
 }
 
 .hero-content {
@@ -489,6 +511,7 @@ section {
   width: 100%;
   height: 320px;
   object-fit: cover;
+  object-position: top center;
 }
 
 .testimonial .quote-mark {
@@ -519,9 +542,24 @@ section {
   color: var(--color-on-surface-variant);
 }
 
+.founder-bio {
+  margin-top: var(--space-md);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-on-surface-variant);
+}
+
+.founder-motto {
+  margin-top: var(--space-md);
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
 @media (max-width: 768px) {
   .testimonial { grid-template-columns: 1fr; }
-  .testimonial img { height: 260px; }
+  .testimonial img { height: 380px; }
 }
 
 /* ===== Registration form ===== */
