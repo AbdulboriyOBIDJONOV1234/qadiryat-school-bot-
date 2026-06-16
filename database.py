@@ -76,6 +76,20 @@ async def count_today() -> int:
         )
 
 
+async def get_user_registrations(telegram_id: int):
+    async with _pool.acquire() as conn:
+        rows = await conn.fetch(
+            """
+            SELECT id, full_name, birth_date, grade, location, phone, created_at
+            FROM registrations
+            WHERE telegram_id = $1
+            ORDER BY id
+            """,
+            telegram_id,
+        )
+        return [tuple(row) for row in rows]
+
+
 async def delete_all_registrations() -> int:
     async with _pool.acquire() as conn:
         result = await conn.execute("DELETE FROM registrations")

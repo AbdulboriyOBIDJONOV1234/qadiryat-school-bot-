@@ -26,6 +26,17 @@ def get_admin_keyboard() -> ReplyKeyboardMarkup:
     )
 
 
+def get_user_keyboard() -> ReplyKeyboardMarkup:
+    return ReplyKeyboardMarkup(
+        keyboard=[
+            [KeyboardButton(text="📝 Ro'yxatdan o'tish")],
+            [KeyboardButton(text="📋 Mening arizalarim"), KeyboardButton(text="❓ Yordam")],
+            [KeyboardButton(text="❌ Ro'yxatdan o'tishni bekor qilish")],
+        ],
+        resize_keyboard=True,
+    )
+
+
 def get_reset_confirm_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[
         [
