@@ -9,3 +9,7 @@ class Registration(StatesGroup):
     grade = State()
     location = State()
     phone = State()
+
+
+class Broadcast(StatesGroup):
+    waiting_for_message = State()

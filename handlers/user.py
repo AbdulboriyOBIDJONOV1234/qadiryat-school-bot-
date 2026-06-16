@@ -6,7 +6,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, ReplyKeyboardRemove
 
 from config import ADMIN_ID
-from database import add_registration
+from database import add_registration, save_user
 from keyboards import get_phone_keyboard
 from states import Registration
 from validators import (
@@ -59,6 +59,7 @@ SUCCESS_TEXT = (
 @user_router.message(CommandStart())
 async def cmd_start(message: Message, state: FSMContext):
     await state.clear()
+    await save_user(message.from_user.id, message.from_user.username)
     await message.answer(WELCOME_TEXT)
     await state.set_state(Registration.first_name)
     await message.answer(ASK_FIRST_NAME)
@@ -242,8 +243,26 @@ async def finish_registration(message: Message, state: FSMContext, bot: Bot, pho
         logging.exception("Adminga xabar yuborib bo'lmadi")
 
 
+HELP_TEXT = (
+    "❓ <b>Yordam kerakmi?</b>\n\n"
+    "Savol, muammo yoki taklif bo'lsa — adminimizga murojaat qiling:\n\n"
+    "👤 <b>Admin:</b> @qadriyat_schooladmin\n\n"
+    "📞 Telefon: +998 90 105-77-78\n"
+    "📞 Telefon: +998 93 400-44-88\n\n"
+    "Biz doim yordam berishga tayyormiz! 🙏"
+)
+
+
+@user_router.message(Command("help"))
+async def cmd_help(message: Message):
+    await message.answer(HELP_TEXT)
+
+
 @user_router.message()
 async def fallback(message: Message, state: FSMContext):
     current_state = await state.get_state()
     if current_state is None:
-        await message.answer("Ro'yxatdan o'tish uchun /start buyrug'ini yuboring.")
+        await message.answer(
+            "Ro'yxatdan o'tish uchun /start\n"
+            "Yordam uchun /help"
+        )

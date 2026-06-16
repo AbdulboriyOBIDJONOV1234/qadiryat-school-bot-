@@ -26,6 +26,15 @@ async def init_db():
             )
             """
         )
+        await conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS bot_users (
+                telegram_id BIGINT PRIMARY KEY,
+                username TEXT,
+                first_seen TEXT NOT NULL
+            )
+            """
+        )
 
 
 async def add_registration(telegram_id, username, full_name, birth_date, grade, location, phone) -> int:
@@ -65,3 +74,29 @@ async def count_today() -> int:
         return await conn.fetchval(
             "SELECT COUNT(*) FROM registrations WHERE created_at = $1", today
         )
+
+
+async def delete_all_registrations() -> int:
+    async with _pool.acquire() as conn:
+        result = await conn.execute("DELETE FROM registrations")
+        await conn.execute("ALTER SEQUENCE registrations_id_seq RESTART WITH 1")
+        return int(result.split()[-1])
+
+
+async def save_user(telegram_id: int, username: str | None) -> None:
+    first_seen = date.today().isoformat()
+    async with _pool.acquire() as conn:
+        await conn.execute(
+            """
+            INSERT INTO bot_users (telegram_id, username, first_seen)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (telegram_id) DO NOTHING
+            """,
+            telegram_id, username, first_seen,
+        )
+
+
+async def get_all_user_ids() -> list[int]:
+    async with _pool.acquire() as conn:
+        rows = await conn.fetch("SELECT telegram_id FROM bot_users")
+        return [row["telegram_id"] for row in rows]
