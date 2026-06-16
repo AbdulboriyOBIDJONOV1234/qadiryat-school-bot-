@@ -86,6 +86,7 @@ async def api_register(request: web.Request) -> web.Response:
         phone=phone,
     )
 
+    from database import format_dt, now_uzt
     admin_text = (
         f"🌐 <b>Veb-sayt orqali yangi ariza #{reg_id}</b>\n\n"
         f"👤 <b>F.I.Sh:</b> {full_name}\n"
@@ -93,6 +94,7 @@ async def api_register(request: web.Request) -> web.Response:
         f"🏫 <b>Sinf:</b> {grade}-sinf\n"
         f"📍 <b>Manzil:</b> {location}\n"
         f"📞 <b>Telefon:</b> {phone}\n"
+        f"🕐 <b>Vaqt:</b> {format_dt(now_uzt())}\n"
     )
 
     bot = request.app.get("bot")

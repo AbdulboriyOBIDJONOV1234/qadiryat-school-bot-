@@ -6,7 +6,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, ReplyKeyboardRemove
 
 from config import ADMIN_ID
-from database import add_registration, get_user_registrations, save_user
+from database import add_registration, format_dt, get_user_registrations, save_user
 from keyboards import get_phone_keyboard, get_user_keyboard
 from states import Registration
 from validators import (
@@ -51,7 +51,9 @@ ASK_PHONE = (
 SUCCESS_TEXT = (
     "✅ <b>Arizangiz qabul qilindi!</b>\n\n"
     "Tez orada operatorlarimiz siz bilan bog'lanishadi. "
-    "<b>Qadriyat maktabi</b>ni tanlaganingiz uchun tashakkur! 🎓🙏"
+    "<b>Qadriyat maktabi</b>ni tanlaganingiz uchun tashakkur! 🎓🙏\n\n"
+    "📢 Yangiliklar va e'lonlardan habardor bo'lib turing:\n"
+    "👉 <a href=\"https://t.me/qadriyat_xususiy_maktab\">Kanalimizga a'zo bo'ling</a>"
 )
 
 HELP_TEXT = (
@@ -111,7 +113,7 @@ async def btn_my_registrations(message: Message):
             f"🎂 {birth_date}\n"
             f"🏫 {grade}-sinf | 📍 {location}\n"
             f"📞 {phone}\n"
-            f"📅 {created_at}"
+            f"🕐 {format_dt(created_at)}"
         )
 
     await message.answer(text, reply_markup=get_user_keyboard())
@@ -286,6 +288,7 @@ async def finish_registration(message: Message, state: FSMContext, bot: Bot, pho
     await state.clear()
     await message.answer(SUCCESS_TEXT, reply_markup=get_user_keyboard())
 
+    from database import format_dt, now_uzt
     admin_text = (
         f"🆕 <b>Yangi ariza #{reg_id}</b>\n\n"
         f"👤 <b>F.I.Sh:</b> {full_name}\n"
@@ -293,6 +296,7 @@ async def finish_registration(message: Message, state: FSMContext, bot: Bot, pho
         f"🏫 <b>Sinf:</b> {data['grade']}-sinf\n"
         f"📍 <b>Manzil:</b> {data['location']}\n"
         f"📞 <b>Telefon:</b> {phone}\n"
+        f"🕐 <b>Vaqt:</b> {format_dt(now_uzt())}\n"
     )
     if message.from_user.username:
         admin_text += f"🔗 <b>Username:</b> @{message.from_user.username}\n"

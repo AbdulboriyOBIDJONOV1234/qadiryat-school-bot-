@@ -1,10 +1,30 @@
-from datetime import date
+from datetime import datetime, timedelta, timezone
 
 import asyncpg
 
 from config import DATABASE_URL
 
 _pool: asyncpg.Pool | None = None
+
+UZT = timezone(timedelta(hours=5))
+
+
+def now_uzt() -> str:
+    return datetime.now(UZT).strftime("%Y-%m-%d %H:%M")
+
+
+def format_dt(created_at: str) -> str:
+    """'2026-06-16 14:30' → '16.06.2026 soat 14:30'"""
+    try:
+        dt = datetime.strptime(created_at, "%Y-%m-%d %H:%M")
+        return dt.strftime("%d.%m.%Y soat %H:%M")
+    except ValueError:
+        # eski format: '2026-06-16'
+        try:
+            dt = datetime.strptime(created_at, "%Y-%m-%d")
+            return dt.strftime("%d.%m.%Y")
+        except ValueError:
+            return created_at
 
 
 async def init_db():
@@ -38,7 +58,7 @@ async def init_db():
 
 
 async def add_registration(telegram_id, username, full_name, birth_date, grade, location, phone) -> int:
-    created_at = date.today().isoformat()
+    created_at = now_uzt()
     async with _pool.acquire() as conn:
         return await conn.fetchval(
             """
@@ -69,10 +89,11 @@ async def count_all() -> int:
 
 
 async def count_today() -> int:
-    today = date.today().isoformat()
+    today = datetime.now(UZT).strftime("%Y-%m-%d")
     async with _pool.acquire() as conn:
         return await conn.fetchval(
-            "SELECT COUNT(*) FROM registrations WHERE created_at = $1", today
+            "SELECT COUNT(*) FROM registrations WHERE created_at LIKE $1",
+            f"{today}%",
         )
 
 
@@ -98,7 +119,7 @@ async def delete_all_registrations() -> int:
 
 
 async def save_user(telegram_id: int, username: str | None) -> None:
-    first_seen = date.today().isoformat()
+    first_seen = now_uzt()
     async with _pool.acquire() as conn:
         await conn.execute(
             """
