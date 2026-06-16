@@ -105,10 +105,9 @@ async def btn_my_registrations(message: Message):
 
     text = f"📋 <b>Sizning arizalaringiz ({len(rows)} ta):</b>\n"
     for r in rows:
-        reg_id, full_name, birth_date, grade, location, phone, created_at = r
+        _, full_name, birth_date, grade, location, phone, created_at = r
         text += (
             f"\n──────────────\n"
-            f"🔢 <b>Ariza №{reg_id}</b>\n"
             f"👤 {full_name}\n"
             f"🎂 {birth_date}\n"
             f"🏫 {grade}-sinf | 📍 {location}\n"
