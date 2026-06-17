@@ -11,12 +11,8 @@ from database import (
     count_all,
     count_today,
     delete_all_registrations,
-    format_dt,
     get_all_registrations,
     get_all_user_ids,
-    get_registration_by_id,
-    get_registrations_by_status,
-    update_registration_status,
 )
 from excel_export import build_excel
 from keyboards import get_admin_keyboard, get_reset_confirm_keyboard
@@ -153,102 +149,3 @@ async def admin_broadcast_send(message: Message, state: FSMContext, bot: Bot):
         f"❌ Bloklaganlar / xato: {failed} ta"
     )
     await message.answer("Boshqa buyruq:", reply_markup=get_admin_keyboard())
-
-
-# ───── ARIZALAR BO'YICHA FILTRLASH ─────
-
-_STATUS_FILTERS = {
-    "🔄 Ko'rilmoqda":   ("review",   "🔄 Ko'rilmoqda"),
-    "✅ Qabul qilingan": ("accepted", "✅ Qabul qilingan"),
-    "❌ Rad etilgan":    ("rejected", "❌ Rad etilgan"),
-}
-
-
-@admin_router.message(F.text.in_(_STATUS_FILTERS))
-async def admin_filter_apps(message: Message):
-    status_code, label = _STATUS_FILTERS[message.text]
-    rows = await get_registrations_by_status(status_code)
-
-    if not rows:
-        await message.answer(
-            f"📭 Hozirda <b>{label}</b> arizalar yo'q.",
-            reply_markup=get_admin_keyboard(),
-        )
-        return
-
-    extra = " (oxirgi 15 ta)" if len(rows) > 15 else ""
-    await message.answer(
-        f"📋 <b>{label} arizalar — {len(rows)} ta{extra}</b>",
-        reply_markup=get_admin_keyboard(),
-    )
-
-    from keyboards import get_status_keyboard
-    for reg_id, full_name, grade, phone, created_at, _ in rows[:15]:
-        text = (
-            f"<b>Ariza #{reg_id}</b>\n"
-            f"👤 {full_name}\n"
-            f"🏫 {grade}-sinf  |  📞 {phone}\n"
-            f"🕐 {format_dt(created_at)}"
-        )
-        await message.answer(text, reply_markup=get_status_keyboard(reg_id))
-        await asyncio.sleep(0.05)
-
-
-# ───── ARIZA HOLATI ─────
-
-_STATUS_MAP = {
-    "accepted": ("accepted", "✅ Qabul qilindi",
-                 "🎉 <b>Tabriklaymiz!</b>\n\nSizning arizangiz <b>qabul qilindi!</b>\n"
-                 "Tez orada operatorlarimiz siz bilan bog'lanadi.\n\n"
-                 "Savollar uchun: @qadriyat_schooladmin"),
-    "review":   ("review",   "🔄 Ko'rilmoqda",
-                 "🔄 Sizning arizangiz <b>ko'rib chiqilmoqda.</b>\n"
-                 "Tez orada javob beramiz.\n\n"
-                 "Savollar uchun: @qadriyat_schooladmin"),
-    "rejected": ("rejected", "❌ Rad etildi",
-                 "😔 Afsuski, sizning arizangiz <b>rad etildi.</b>\n"
-                 "Batafsil ma'lumot uchun adminimizga murojaat qiling:\n\n"
-                 "👤 @qadriyat_schooladmin\n"
-                 "📞 +998 90 105-77-78"),
-}
-
-
-@admin_router.callback_query(F.data.startswith("st_"))
-async def status_callback(callback: CallbackQuery, bot: Bot):
-    parts = callback.data.split("_", 2)
-    if len(parts) != 3:
-        await callback.answer("Xatolik!")
-        return
-
-    _, key, reg_id_str = parts
-    if key not in _STATUS_MAP or not reg_id_str.isdigit():
-        await callback.answer("Noto'g'ri ma'lumot!")
-        return
-
-    reg_id = int(reg_id_str)
-    status_code, label, user_msg = _STATUS_MAP[key]
-
-    reg = await get_registration_by_id(reg_id)
-    if not reg:
-        await callback.answer("Ariza topilmadi!")
-        return
-
-    _, telegram_id, full_name, grade, phone, current_status = reg
-
-    if current_status == status_code:
-        await callback.answer(f"ℹ️ Bu ariza allaqachon {label} holatida!")
-        return
-
-    await update_registration_status(reg_id, status_code)
-
-    if telegram_id and telegram_id != 0:
-        try:
-            await bot.send_message(
-                telegram_id,
-                f"📋 <b>Ariza #{reg_id} holati yangilandi</b>\n\n{user_msg}",
-            )
-        except Exception:
-            pass
-
-    await callback.message.edit_reply_markup(reply_markup=None)
-    await callback.answer(f"✅ {label}")

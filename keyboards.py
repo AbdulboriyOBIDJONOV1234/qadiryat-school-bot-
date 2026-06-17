@@ -21,11 +21,6 @@ def get_admin_keyboard() -> ReplyKeyboardMarkup:
         keyboard=[
             [KeyboardButton(text="📊 Statistika"), KeyboardButton(text="📥 Excel hisobot")],
             [KeyboardButton(text="📢 Xabar yuborish"), KeyboardButton(text="🗑️ Bazani tozalash")],
-            [
-                KeyboardButton(text="🔄 Ko'rilmoqda"),
-                KeyboardButton(text="✅ Qabul qilingan"),
-                KeyboardButton(text="❌ Rad etilgan"),
-            ],
         ],
         resize_keyboard=True,
     )
@@ -41,14 +36,6 @@ def get_user_keyboard() -> ReplyKeyboardMarkup:
         ],
         resize_keyboard=True,
     )
-
-
-def get_status_keyboard(reg_id: int) -> InlineKeyboardMarkup:
-    return InlineKeyboardMarkup(inline_keyboard=[[
-        InlineKeyboardButton(text="✅ Qabul", callback_data=f"st_accepted_{reg_id}"),
-        InlineKeyboardButton(text="🔄 Ko'rilmoqda", callback_data=f"st_review_{reg_id}"),
-        InlineKeyboardButton(text="❌ Rad etildi", callback_data=f"st_rejected_{reg_id}"),
-    ]])
 
 
 def get_share_keyboard() -> InlineKeyboardMarkup:

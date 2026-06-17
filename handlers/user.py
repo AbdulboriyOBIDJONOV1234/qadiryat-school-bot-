@@ -7,7 +7,7 @@ from aiogram.types import Message, ReplyKeyboardRemove
 
 from config import ADMIN_ID
 from database import add_registration, format_dt, get_user_registrations, save_user
-from keyboards import get_phone_keyboard, get_share_keyboard, get_status_keyboard, get_user_keyboard
+from keyboards import get_phone_keyboard, get_share_keyboard, get_user_keyboard
 from states import Registration
 from validators import (
     is_valid_location,
@@ -106,12 +106,6 @@ NARX_TEXT = (
     "📞 Chegirma shartlari: @qadriyat_schooladmin"
 )
 
-STATUS_DISPLAY = {
-    "pending":  "🕐 Kutilmoqda",
-    "review":   "🔄 Ko'rilmoqda",
-    "accepted": "✅ Qabul qilindi",
-    "rejected": "❌ Rad etildi",
-}
 
 
 # ───── /start ─────
@@ -153,16 +147,14 @@ async def btn_my_registrations(message: Message):
 
     text = f"📋 <b>Sizning arizalaringiz ({len(rows)} ta):</b>\n"
     for r in rows:
-        _, full_name, birth_date, grade, location, phone, created_at, status = r
-        status_label = STATUS_DISPLAY.get(status, "🕐 Kutilmoqda")
+        _, full_name, birth_date, grade, location, phone, created_at, *_ = r
         text += (
             f"\n──────────────\n"
             f"👤 {full_name}\n"
             f"🎂 {birth_date}\n"
             f"🏫 {grade}-sinf | 📍 {location}\n"
             f"📞 {phone}\n"
-            f"🕐 {format_dt(created_at)}\n"
-            f"📌 Holat: {status_label}"
+            f"🕐 {format_dt(created_at)}"
         )
 
     await message.answer(text, reply_markup=get_user_keyboard())
@@ -388,7 +380,7 @@ async def finish_registration(message: Message, state: FSMContext, bot: Bot, pho
     admin_text += f"🆔 <b>Telegram ID:</b> {message.from_user.id}"
 
     try:
-        await bot.send_message(ADMIN_ID, admin_text, reply_markup=get_status_keyboard(reg_id))
+        await bot.send_message(ADMIN_ID, admin_text)
     except Exception:
         logging.exception("Adminga xabar yuborib bo'lmadi")
 
