@@ -137,7 +137,11 @@ async def get_registrations_by_status(status: str):
 async def get_registration_by_id(reg_id: int):
     async with _pool.acquire() as conn:
         row = await conn.fetchrow(
-            "SELECT id, telegram_id, full_name, grade, phone FROM registrations WHERE id = $1",
+            """
+            SELECT id, telegram_id, full_name, grade, phone,
+                   COALESCE(status, 'pending') AS status
+            FROM registrations WHERE id = $1
+            """,
             reg_id,
         )
         return tuple(row) if row else None

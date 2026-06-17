@@ -228,19 +228,27 @@ async def status_callback(callback: CallbackQuery, bot: Bot):
     reg_id = int(reg_id_str)
     status_code, label, user_msg = _STATUS_MAP[key]
 
+    reg = await get_registration_by_id(reg_id)
+    if not reg:
+        await callback.answer("Ariza topilmadi!")
+        return
+
+    _, telegram_id, full_name, grade, phone, current_status = reg
+
+    if current_status == status_code:
+        await callback.answer(f"ℹ️ Bu ariza allaqachon {label} holatida!")
+        return
+
     await update_registration_status(reg_id, status_code)
 
-    reg = await get_registration_by_id(reg_id)
-    if reg:
-        _, telegram_id, full_name, grade, phone = reg
-        if telegram_id and telegram_id != 0:
-            try:
-                await bot.send_message(
-                    telegram_id,
-                    f"📋 <b>Ariza #{reg_id} holati yangilandi</b>\n\n{user_msg}",
-                )
-            except Exception:
-                pass
+    if telegram_id and telegram_id != 0:
+        try:
+            await bot.send_message(
+                telegram_id,
+                f"📋 <b>Ariza #{reg_id} holati yangilandi</b>\n\n{user_msg}",
+            )
+        except Exception:
+            pass
 
     await callback.message.edit_reply_markup(reply_markup=None)
     await callback.answer(f"✅ {label}")
