@@ -7,7 +7,7 @@ from aiogram.types import Message, ReplyKeyboardRemove
 
 from config import ADMIN_ID
 from database import add_registration, format_dt, get_user_registrations, save_user
-from keyboards import get_phone_keyboard, get_share_keyboard, get_user_keyboard
+from keyboards import get_phone_keyboard, get_share_keyboard, get_status_keyboard, get_user_keyboard
 from states import Registration
 from validators import (
     is_valid_location,
@@ -63,8 +63,55 @@ HELP_TEXT = (
     "👤 <b>Admin:</b> @qadriyat_schooladmin\n\n"
     "📞 Telefon: +998 90 105-77-78\n"
     "📞 Telefon: +998 93 400-44-88\n\n"
+    "💡 Ko'p so'raladigan savollarga javob: /faq\n\n"
     "Biz doim yordam berishga tayyormiz! 🙏"
 )
+
+FAQ_TEXT = (
+    "❓ <b>Ko'p so'raladigan savollar</b>\n\n"
+    "1️⃣ <b>Ro'yxatdan qanday o'tish mumkin?</b>\n"
+    "   → «📝 Ro'yxatdan o'tish» tugmasini bosing. Operator 1–2 ish kuni ichida bog'lanadi.\n\n"
+    "2️⃣ <b>Oylik to'lov qancha?</b>\n"
+    "   → 2,000,000 so'm/oy. To'lov bank yoki naqd orqali amalga oshiriladi.\n\n"
+    "3️⃣ <b>Chegirmalar bormi?</b>\n"
+    "   → Ha! Batafsil: /narx\n\n"
+    "4️⃣ <b>Dars vaqti qanday?</b>\n"
+    "   → Darslar 8:00 da boshlanib, 17:00 da tugaydi. 3 mahal issiq ovqat beriladi.\n\n"
+    "5️⃣ <b>Transport xizmati bormi?</b>\n"
+    "   → Ha, barcha o'quvchilar uchun bepul transport mavjud.\n\n"
+    "6️⃣ <b>Qaysi sinflarga qabul bor?</b>\n"
+    "   → 1-sinfdan 11-sinfgacha. O'zbek va rus tili bo'limlari mavjud.\n\n"
+    "📞 Boshqa savollar uchun: @qadriyat_schooladmin"
+)
+
+MANZIL_TEXT = (
+    "📍 <b>Maktab manzili</b>\n\n"
+    "Farg'ona viloyati, Qo'shtepa tumani\n"
+    "Sarmazor MFY, Sharq ko'chasi 28-uy\n"
+    "<i>(Mo'ljal: «Global Texstil» yonida)</i>\n\n"
+    "📞 +998 90 105-77-78\n"
+    "📞 +998 93 400-44-88\n\n"
+    "🕐 <b>Ish vaqti:</b> 9:00 — 18:00"
+)
+
+NARX_TEXT = (
+    "💰 <b>To'lov va chegirmalar</b>\n\n"
+    "💳 <b>Oylik to'lov:</b> 2,000,000 so'm\n\n"
+    "✨ <b>Maxsus chegirmalar:</b>\n\n"
+    "🏅 Prezident yoki Ibn Sino maktablari\n"
+    "   imtihonlarida yuqori ball to'plagan o'quvchilar\n\n"
+    "👨‍👩‍👧‍👦 Bir oiladan ikki va undan ortiq farzandlari\n"
+    "   bizda ta'lim olayotgan oilalar\n\n"
+    "🤝 Kam ta'minlangan oila farzandlari\n\n"
+    "📞 Chegirma shartlari: @qadriyat_schooladmin"
+)
+
+STATUS_DISPLAY = {
+    "pending":  "🕐 Kutilmoqda",
+    "review":   "🔄 Ko'rilmoqda",
+    "accepted": "✅ Qabul qilindi",
+    "rejected": "❌ Rad etildi",
+}
 
 
 # ───── /start ─────
@@ -106,14 +153,16 @@ async def btn_my_registrations(message: Message):
 
     text = f"📋 <b>Sizning arizalaringiz ({len(rows)} ta):</b>\n"
     for r in rows:
-        _, full_name, birth_date, grade, location, phone, created_at = r
+        _, full_name, birth_date, grade, location, phone, created_at, status = r
+        status_label = STATUS_DISPLAY.get(status, "🕐 Kutilmoqda")
         text += (
             f"\n──────────────\n"
             f"👤 {full_name}\n"
             f"🎂 {birth_date}\n"
             f"🏫 {grade}-sinf | 📍 {location}\n"
             f"📞 {phone}\n"
-            f"🕐 {format_dt(created_at)}"
+            f"🕐 {format_dt(created_at)}\n"
+            f"📌 Holat: {status_label}"
         )
 
     await message.answer(text, reply_markup=get_user_keyboard())
@@ -125,6 +174,36 @@ async def btn_my_registrations(message: Message):
 @user_router.message(Command("help"))
 async def btn_help(message: Message):
     await message.answer(HELP_TEXT, reply_markup=get_user_keyboard())
+
+
+# ───── FAQ ─────
+
+@user_router.message(Command("faq"))
+async def btn_faq(message: Message):
+    await message.answer(FAQ_TEXT, reply_markup=get_user_keyboard())
+
+
+# ───── Manzil ─────
+
+@user_router.message(F.text == "📍 Manzil")
+@user_router.message(Command("manzil"))
+async def btn_manzil(message: Message):
+    from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+    kb = InlineKeyboardMarkup(inline_keyboard=[[
+        InlineKeyboardButton(
+            text="🗺 Xaritada ko'rish",
+            url="https://maps.app.goo.gl/ihZaUE6aaKNv6W9R7",
+        )
+    ]])
+    await message.answer(MANZIL_TEXT, reply_markup=kb)
+
+
+# ───── Narx ─────
+
+@user_router.message(F.text == "💰 Narx va chegirmalar")
+@user_router.message(Command("narx"))
+async def btn_narx(message: Message):
+    await message.answer(NARX_TEXT, reply_markup=get_user_keyboard())
 
 
 # ───── Bekor qilish ─────
@@ -309,7 +388,7 @@ async def finish_registration(message: Message, state: FSMContext, bot: Bot, pho
     admin_text += f"🆔 <b>Telegram ID:</b> {message.from_user.id}"
 
     try:
-        await bot.send_message(ADMIN_ID, admin_text)
+        await bot.send_message(ADMIN_ID, admin_text, reply_markup=get_status_keyboard(reg_id))
     except Exception:
         logging.exception("Adminga xabar yuborib bo'lmadi")
 

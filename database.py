@@ -51,6 +51,9 @@ async def init_db():
             "ALTER TABLE registrations ADD COLUMN IF NOT EXISTS reminded BOOLEAN DEFAULT FALSE"
         )
         await conn.execute(
+            "ALTER TABLE registrations ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'pending'"
+        )
+        await conn.execute(
             """
             CREATE TABLE IF NOT EXISTS bot_users (
                 telegram_id BIGINT PRIMARY KEY,
@@ -105,7 +108,8 @@ async def get_user_registrations(telegram_id: int):
     async with _pool.acquire() as conn:
         rows = await conn.fetch(
             """
-            SELECT id, full_name, birth_date, grade, location, phone, created_at
+            SELECT id, full_name, birth_date, grade, location, phone, created_at,
+                   COALESCE(status, 'pending') AS status
             FROM registrations
             WHERE telegram_id = $1
             ORDER BY id
@@ -113,6 +117,22 @@ async def get_user_registrations(telegram_id: int):
             telegram_id,
         )
         return [tuple(row) for row in rows]
+
+
+async def get_registration_by_id(reg_id: int):
+    async with _pool.acquire() as conn:
+        row = await conn.fetchrow(
+            "SELECT id, telegram_id, full_name, grade, phone FROM registrations WHERE id = $1",
+            reg_id,
+        )
+        return tuple(row) if row else None
+
+
+async def update_registration_status(reg_id: int, status: str) -> None:
+    async with _pool.acquire() as conn:
+        await conn.execute(
+            "UPDATE registrations SET status = $1 WHERE id = $2", status, reg_id
+        )
 
 
 async def delete_all_registrations() -> int:

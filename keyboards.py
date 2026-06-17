@@ -31,10 +31,19 @@ def get_user_keyboard() -> ReplyKeyboardMarkup:
         keyboard=[
             [KeyboardButton(text="📝 Ro'yxatdan o'tish")],
             [KeyboardButton(text="📋 Mening arizalarim"), KeyboardButton(text="❓ Yordam")],
+            [KeyboardButton(text="📍 Manzil"), KeyboardButton(text="💰 Narx va chegirmalar")],
             [KeyboardButton(text="❌ Ro'yxatdan o'tishni bekor qilish")],
         ],
         resize_keyboard=True,
     )
+
+
+def get_status_keyboard(reg_id: int) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(inline_keyboard=[[
+        InlineKeyboardButton(text="✅ Qabul", callback_data=f"st_accepted_{reg_id}"),
+        InlineKeyboardButton(text="🔄 Ko'rilmoqda", callback_data=f"st_review_{reg_id}"),
+        InlineKeyboardButton(text="❌ Rad etildi", callback_data=f"st_rejected_{reg_id}"),
+    ]])
 
 
 def get_share_keyboard() -> InlineKeyboardMarkup:

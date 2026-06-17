@@ -13,6 +13,8 @@ from database import (
     delete_all_registrations,
     get_all_registrations,
     get_all_user_ids,
+    get_registration_by_id,
+    update_registration_status,
 )
 from excel_export import build_excel
 from keyboards import get_admin_keyboard, get_reset_confirm_keyboard
@@ -149,3 +151,55 @@ async def admin_broadcast_send(message: Message, state: FSMContext, bot: Bot):
         f"❌ Bloklaganlar / xato: {failed} ta"
     )
     await message.answer("Boshqa buyruq:", reply_markup=get_admin_keyboard())
+
+
+# ───── ARIZA HOLATI ─────
+
+_STATUS_MAP = {
+    "accepted": ("accepted", "✅ Qabul qilindi",
+                 "🎉 <b>Tabriklaymiz!</b>\n\nSizning arizangiz <b>qabul qilindi!</b>\n"
+                 "Tez orada operatorlarimiz siz bilan bog'lanadi.\n\n"
+                 "Savollar uchun: @qadriyat_schooladmin"),
+    "review":   ("review",   "🔄 Ko'rilmoqda",
+                 "🔄 Sizning arizangiz <b>ko'rib chiqilmoqda.</b>\n"
+                 "Tez orada javob beramiz.\n\n"
+                 "Savollar uchun: @qadriyat_schooladmin"),
+    "rejected": ("rejected", "❌ Rad etildi",
+                 "😔 Afsuski, sizning arizangiz <b>rad etildi.</b>\n"
+                 "Batafsil ma'lumot uchun adminimizga murojaat qiling:\n\n"
+                 "👤 @qadriyat_schooladmin\n"
+                 "📞 +998 90 105-77-78"),
+}
+
+
+@admin_router.callback_query(F.data.startswith("st_"))
+async def status_callback(callback: CallbackQuery, bot: Bot):
+    parts = callback.data.split("_", 2)
+    if len(parts) != 3:
+        await callback.answer("Xatolik!")
+        return
+
+    _, key, reg_id_str = parts
+    if key not in _STATUS_MAP or not reg_id_str.isdigit():
+        await callback.answer("Noto'g'ri ma'lumot!")
+        return
+
+    reg_id = int(reg_id_str)
+    status_code, label, user_msg = _STATUS_MAP[key]
+
+    await update_registration_status(reg_id, status_code)
+
+    reg = await get_registration_by_id(reg_id)
+    if reg:
+        _, telegram_id, full_name, grade, phone = reg
+        if telegram_id and telegram_id != 0:
+            try:
+                await bot.send_message(
+                    telegram_id,
+                    f"📋 <b>Ariza #{reg_id} holati yangilandi</b>\n\n{user_msg}",
+                )
+            except Exception:
+                pass
+
+    await callback.message.edit_reply_markup(reply_markup=None)
+    await callback.answer(f"✅ {label}")
