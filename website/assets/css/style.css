@@ -1263,6 +1263,13 @@ section {
   color: var(--color-on-surface);
 }
 
+.faq-link {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 /* ===== Scroll reveal ===== */
 .reveal {
   opacity: 0;

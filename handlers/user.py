@@ -96,14 +96,18 @@ MANZIL_TEXT = (
 
 NARX_TEXT = (
     "💰 <b>To'lov va chegirmalar</b>\n\n"
-    "💳 <b>Oylik to'lov:</b> 2,000,000 so'm\n\n"
+    "To'lov miqdori farzandingizning sinfi va\n"
+    "tanlangan dasturga qarab belgilanadi.\n\n"
+    "Aniq narx va shartlar uchun murojaat qiling:\n"
+    "📞 +998 90 105-77-78\n"
+    "📞 +998 93 400-44-88\n"
+    "👤 @qadriyat_schooladmin\n\n"
     "✨ <b>Maxsus chegirmalar:</b>\n\n"
     "🏅 Prezident yoki Ibn Sino maktablari\n"
     "   imtihonlarida yuqori ball to'plagan o'quvchilar\n\n"
     "👨‍👩‍👧‍👦 Bir oiladan ikki va undan ortiq farzandlari\n"
     "   bizda ta'lim olayotgan oilalar\n\n"
-    "🤝 Kam ta'minlangan oila farzandlari\n\n"
-    "📞 Chegirma shartlari: @qadriyat_schooladmin"
+    "🤝 Kam ta'minlangan oila farzandlari"
 )
 
 
