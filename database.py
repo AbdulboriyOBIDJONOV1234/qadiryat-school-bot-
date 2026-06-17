@@ -119,6 +119,21 @@ async def get_user_registrations(telegram_id: int):
         return [tuple(row) for row in rows]
 
 
+async def get_registrations_by_status(status: str):
+    async with _pool.acquire() as conn:
+        rows = await conn.fetch(
+            """
+            SELECT id, full_name, grade, phone, created_at,
+                   COALESCE(status, 'pending') AS status
+            FROM registrations
+            WHERE COALESCE(status, 'pending') = $1
+            ORDER BY id DESC
+            """,
+            status,
+        )
+        return [tuple(row) for row in rows]
+
+
 async def get_registration_by_id(reg_id: int):
     async with _pool.acquire() as conn:
         row = await conn.fetchrow(

@@ -21,6 +21,11 @@ def get_admin_keyboard() -> ReplyKeyboardMarkup:
         keyboard=[
             [KeyboardButton(text="📊 Statistika"), KeyboardButton(text="📥 Excel hisobot")],
             [KeyboardButton(text="📢 Xabar yuborish"), KeyboardButton(text="🗑️ Bazani tozalash")],
+            [
+                KeyboardButton(text="🔄 Ko'rilmoqda"),
+                KeyboardButton(text="✅ Qabul qilingan"),
+                KeyboardButton(text="❌ Rad etilgan"),
+            ],
         ],
         resize_keyboard=True,
     )

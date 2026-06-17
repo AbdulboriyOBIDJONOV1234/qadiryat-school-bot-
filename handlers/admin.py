@@ -11,9 +11,11 @@ from database import (
     count_all,
     count_today,
     delete_all_registrations,
+    format_dt,
     get_all_registrations,
     get_all_user_ids,
     get_registration_by_id,
+    get_registrations_by_status,
     update_registration_status,
 )
 from excel_export import build_excel
@@ -151,6 +153,45 @@ async def admin_broadcast_send(message: Message, state: FSMContext, bot: Bot):
         f"❌ Bloklaganlar / xato: {failed} ta"
     )
     await message.answer("Boshqa buyruq:", reply_markup=get_admin_keyboard())
+
+
+# ───── ARIZALAR BO'YICHA FILTRLASH ─────
+
+_STATUS_FILTERS = {
+    "🔄 Ko'rilmoqda":   ("review",   "🔄 Ko'rilmoqda"),
+    "✅ Qabul qilingan": ("accepted", "✅ Qabul qilingan"),
+    "❌ Rad etilgan":    ("rejected", "❌ Rad etilgan"),
+}
+
+
+@admin_router.message(F.text.in_(_STATUS_FILTERS))
+async def admin_filter_apps(message: Message):
+    status_code, label = _STATUS_FILTERS[message.text]
+    rows = await get_registrations_by_status(status_code)
+
+    if not rows:
+        await message.answer(
+            f"📭 Hozirda <b>{label}</b> arizalar yo'q.",
+            reply_markup=get_admin_keyboard(),
+        )
+        return
+
+    extra = " (oxirgi 15 ta)" if len(rows) > 15 else ""
+    await message.answer(
+        f"📋 <b>{label} arizalar — {len(rows)} ta{extra}</b>",
+        reply_markup=get_admin_keyboard(),
+    )
+
+    from keyboards import get_status_keyboard
+    for reg_id, full_name, grade, phone, created_at, _ in rows[:15]:
+        text = (
+            f"<b>Ariza #{reg_id}</b>\n"
+            f"👤 {full_name}\n"
+            f"🏫 {grade}-sinf  |  📞 {phone}\n"
+            f"🕐 {format_dt(created_at)}"
+        )
+        await message.answer(text, reply_markup=get_status_keyboard(reg_id))
+        await asyncio.sleep(0.05)
 
 
 # ───── ARIZA HOLATI ─────
