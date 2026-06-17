@@ -1031,37 +1031,71 @@ section {
   font-size: 14px;
 }
 
-/* ===== Discount list (panel-gold) ===== */
-.discount-intro {
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 13px;
+/* ===== Discount cards (panel-gold) ===== */
+.discount-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
   margin-bottom: var(--space-sm);
 }
 
-.discount-list {
-  list-style: none;
+.discount-cards {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: var(--space-md);
+  gap: 8px;
+  margin-bottom: var(--space-lg);
 }
 
-.discount-list li {
+.discount-card {
   display: flex;
-  gap: 10px;
   align-items: flex-start;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 14px;
-  line-height: 1.5;
+  gap: var(--space-md);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-md);
+  padding: 14px var(--space-md);
+  transition: background 0.22s ease, transform 0.22s ease, border-color 0.22s ease;
+  cursor: default;
 }
 
-.discount-list li .di {
+.discount-card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateX(6px);
+}
+
+.discount-num {
   flex-shrink: 0;
-  margin-top: 1px;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+  letter-spacing: 0.02em;
 }
 
-.discount-list li strong {
+.discount-card > div strong {
+  display: block;
   color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 3px;
+}
+
+.discount-card > div p {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0;
 }
 
 /* ===== Scroll reveal ===== */
