@@ -9,10 +9,11 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import ErrorEvent
 from aiohttp import web
 
-from config import BOT_TOKEN
+from config import ADMIN_ID, BOT_TOKEN
 from database import init_db
 from handlers.admin import admin_router
 from handlers.user import user_router
+from scheduler import setup_scheduler
 from webserver import setup_website_routes
 
 
@@ -54,6 +55,11 @@ async def main():
 
     await bot.delete_webhook(drop_pending_updates=True)
     await start_web_server(bot)
+
+    scheduler = setup_scheduler(bot, ADMIN_ID)
+    scheduler.start()
+    logging.info("Scheduler ishga tushdi.")
+
     await dp.start_polling(bot)
 
 

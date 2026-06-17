@@ -37,6 +37,18 @@ def get_user_keyboard() -> ReplyKeyboardMarkup:
     )
 
 
+def get_share_keyboard() -> InlineKeyboardMarkup:
+    share_url = (
+        "https://t.me/share/url"
+        "?url=https%3A%2F%2Ft.me%2Fqadriyat_school_qabulbot"
+        "&text=Qadriyat+Xususiy+Maktabi+%E2%80%94+Farg%27ona+viloyatidagi+eng+yaxshi+ta%27lim!"
+        "+%F0%9F%8E%93+Men+ham+ro%27yxatdan+o%27tdim.+Siz+ham+qo%27shiling!"
+    )
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="📣 Do'stingizga tavsiya qiling", url=share_url)]
+    ])
+
+
 def get_reset_confirm_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[
         [

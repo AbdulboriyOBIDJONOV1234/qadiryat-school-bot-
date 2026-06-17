@@ -7,7 +7,7 @@ from aiogram.types import Message, ReplyKeyboardRemove
 
 from config import ADMIN_ID
 from database import add_registration, format_dt, get_user_registrations, save_user
-from keyboards import get_phone_keyboard, get_user_keyboard
+from keyboards import get_phone_keyboard, get_share_keyboard, get_user_keyboard
 from states import Registration
 from validators import (
     is_valid_location,
@@ -287,6 +287,12 @@ async def finish_registration(message: Message, state: FSMContext, bot: Bot, pho
     )
     await state.clear()
     await message.answer(SUCCESS_TEXT, reply_markup=get_user_keyboard())
+    await message.answer(
+        "📣 <b>Do'stlaringizni ham tavsiya qiling!</b>\n\n"
+        "Qadriyat Maktabini yaqinlaringizga ulashib, ularning ham "
+        "sifatli ta'lim olishiga yordam bering! 🎓",
+        reply_markup=get_share_keyboard(),
+    )
 
     from database import format_dt, now_uzt
     admin_text = (

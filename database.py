@@ -42,9 +42,13 @@ async def init_db():
                 grade INTEGER NOT NULL,
                 location TEXT NOT NULL,
                 phone TEXT NOT NULL,
-                created_at TEXT NOT NULL
+                created_at TEXT NOT NULL,
+                reminded BOOLEAN DEFAULT FALSE
             )
             """
+        )
+        await conn.execute(
+            "ALTER TABLE registrations ADD COLUMN IF NOT EXISTS reminded BOOLEAN DEFAULT FALSE"
         )
         await conn.execute(
             """
@@ -135,3 +139,46 @@ async def get_all_user_ids() -> list[int]:
     async with _pool.acquire() as conn:
         rows = await conn.fetch("SELECT telegram_id FROM bot_users")
         return [row["telegram_id"] for row in rows]
+
+
+async def count_users() -> int:
+    async with _pool.acquire() as conn:
+        return await conn.fetchval("SELECT COUNT(*) FROM bot_users")
+
+
+async def count_this_week() -> int:
+    now = datetime.now(UZT)
+    monday = now - timedelta(days=now.weekday())
+    week_start = monday.strftime("%Y-%m-%d")
+    async with _pool.acquire() as conn:
+        return await conn.fetchval(
+            "SELECT COUNT(*) FROM registrations WHERE created_at >= $1",
+            week_start,
+        )
+
+
+async def get_unreminded_registrations():
+    """23–25 soat oldin tushgan, hali eslatilmagan arizalar."""
+    now = datetime.now(UZT)
+    window_start = (now - timedelta(hours=25)).strftime("%Y-%m-%d %H:%M")
+    window_end = (now - timedelta(hours=23)).strftime("%Y-%m-%d %H:%M")
+    async with _pool.acquire() as conn:
+        rows = await conn.fetch(
+            """
+            SELECT id, full_name, grade, phone, created_at
+            FROM registrations
+            WHERE reminded = FALSE
+              AND telegram_id != 0
+              AND created_at >= $1
+              AND created_at <= $2
+            """,
+            window_start, window_end,
+        )
+        return [tuple(row) for row in rows]
+
+
+async def mark_reminded(reg_id: int) -> None:
+    async with _pool.acquire() as conn:
+        await conn.execute(
+            "UPDATE registrations SET reminded = TRUE WHERE id = $1", reg_id
+        )
