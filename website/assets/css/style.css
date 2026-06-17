@@ -1031,6 +1031,39 @@ section {
   font-size: 14px;
 }
 
+/* ===== Discount list (panel-gold) ===== */
+.discount-intro {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 13px;
+  margin-bottom: var(--space-sm);
+}
+
+.discount-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: var(--space-md);
+}
+
+.discount-list li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.discount-list li .di {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.discount-list li strong {
+  color: #fff;
+}
+
 /* ===== Scroll reveal ===== */
 .reveal {
   opacity: 0;
