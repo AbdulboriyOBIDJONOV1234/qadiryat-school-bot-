@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initNav();
   initRegistrationForm();
   highlightActiveNav();
+  initScrollReveal();
 });
 
 function initNav() {
@@ -98,4 +99,32 @@ function showErrors(form, errors) {
 
 function clearErrors(form) {
   form.querySelectorAll(".field-error").forEach((el) => (el.textContent = ""));
+}
+
+function initScrollReveal() {
+  if (!("IntersectionObserver" in window)) return;
+
+  const targets = document.querySelectorAll(
+    ".card, .section-header, .split, .testimonial, .cta-banner, .contact-grid, .reg-card, .gallery-grid"
+  );
+
+  targets.forEach((el, i) => {
+    el.classList.add("reveal");
+    if (i % 3 === 1) el.classList.add("reveal-delay-1");
+    if (i % 3 === 2) el.classList.add("reveal-delay-2");
+  });
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+
+  targets.forEach((el) => observer.observe(el));
 }
