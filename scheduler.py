@@ -31,9 +31,8 @@ async def send_daily_hours(bot: Bot, admin_id: int) -> None:
     text = (
         f"🌅 <b>Xayrli tong!</b>\n\n"
         f"📅 Bugun {day}, {now.strftime('%d.%m.%Y')}\n\n"
-        f"🏫 <b>Qadriyat Xususiy Maktabi</b> bugun ham ochiq!\n"
-        f"⏰ <b>Ish vaqti:</b> 9:00 — 18:00\n\n"
-        f"📝 Ro'yxatdan o'tish uchun pastdagi tugmani bosing:\n"
+        f"⏰ <b>Qabul vaqti:</b> 9:00 — 18:00\n\n"
+        f"📝 Ro'yxatdan o'tish uchun:\n"
         f"👉 /start"
     )
 
