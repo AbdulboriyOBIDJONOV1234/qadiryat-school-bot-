@@ -385,6 +385,7 @@ async def finish_registration(message: Message, state: FSMContext, bot: Bot, pho
     admin_text += f"🆔 <b>Telegram ID:</b> {message.from_user.id}"
 
     try:
+        await bot.send_message(ADMIN_ID, "🔔")
         await bot.send_message(ADMIN_ID, admin_text)
     except Exception:
         logging.exception("Adminga xabar yuborib bo'lmadi")

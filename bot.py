@@ -6,7 +6,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.types import ErrorEvent
+from aiogram.types import BotCommand, ErrorEvent
 from aiohttp import web
 
 from config import ADMIN_ID, BOT_TOKEN
@@ -54,6 +54,16 @@ async def main():
     dp.include_router(user_router)
 
     await bot.delete_webhook(drop_pending_updates=True)
+
+    await bot.set_my_commands([
+        BotCommand(command="start",  description="Bosh menyu"),
+        BotCommand(command="faq",    description="Ko'p so'raladigan savollar"),
+        BotCommand(command="manzil", description="Maktab manzili va xarita"),
+        BotCommand(command="narx",   description="To'lov va chegirmalar"),
+        BotCommand(command="bekor",  description="Jarayonni bekor qilish"),
+    ])
+    logging.info("Bot buyruqlari o'rnatildi.")
+
     await start_web_server(bot)
 
     scheduler = setup_scheduler(bot, ADMIN_ID)

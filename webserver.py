@@ -100,6 +100,7 @@ async def api_register(request: web.Request) -> web.Response:
     bot = request.app.get("bot")
     if bot is not None:
         try:
+            await bot.send_message(ADMIN_ID, "🔔")
             await bot.send_message(ADMIN_ID, admin_text)
         except Exception:
             logging.exception("Adminga veb-sayt arizasi haqida xabar yuborib bo'lmadi")
