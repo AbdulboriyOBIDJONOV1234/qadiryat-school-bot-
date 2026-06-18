@@ -6,7 +6,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.types import BotCommand, ErrorEvent
+from aiogram.types import BotCommand, BotCommandScopeChat, BotCommandScopeDefault, ErrorEvent
 from aiohttp import web
 
 from config import ADMIN_ID, BOT_TOKEN
@@ -55,13 +55,30 @@ async def main():
 
     await bot.delete_webhook(drop_pending_updates=True)
 
-    await bot.set_my_commands([
-        BotCommand(command="start",  description="Bosh menyu"),
-        BotCommand(command="faq",    description="Ko'p so'raladigan savollar"),
-        BotCommand(command="manzil", description="Maktab manzili va xarita"),
-        BotCommand(command="narx",   description="To'lov va chegirmalar"),
-        BotCommand(command="bekor",  description="Jarayonni bekor qilish"),
-    ])
+    # Oddiy foydalanuvchilar uchun menyu
+    await bot.set_my_commands(
+        [
+            BotCommand(command="start",  description="Bosh menyu"),
+            BotCommand(command="faq",    description="Ko'p so'raladigan savollar"),
+            BotCommand(command="manzil", description="Maktab manzili va xarita"),
+            BotCommand(command="narx",   description="To'lov va chegirmalar"),
+            BotCommand(command="bekor",  description="Jarayonni bekor qilish"),
+        ],
+        scope=BotCommandScopeDefault(),
+    )
+
+    # Admin uchun alohida menyu
+    await bot.set_my_commands(
+        [
+            BotCommand(command="start",     description="Admin paneli"),
+            BotCommand(command="stats",     description="📊 Statistika"),
+            BotCommand(command="export",    description="📥 Excel hisobot"),
+            BotCommand(command="broadcast", description="📢 Hammaga xabar yuborish"),
+            BotCommand(command="reset",     description="🗑️ Bazani tozalash"),
+            BotCommand(command="bekor",     description="Jarayonni bekor qilish"),
+        ],
+        scope=BotCommandScopeChat(chat_id=ADMIN_ID),
+    )
     logging.info("Bot buyruqlari o'rnatildi.")
 
     await start_web_server(bot)

@@ -38,7 +38,8 @@ async def admin_start(message: Message, state: FSMContext):
     await message.answer(ADMIN_WELCOME, reply_markup=get_admin_keyboard())
 
 
-@admin_router.message(F.text.in_({"📊 Statistika", "/stats"}))
+@admin_router.message(F.text == "📊 Statistika")
+@admin_router.message(Command("stats"))
 async def admin_stats(message: Message):
     total = await count_all()
     today = await count_today()
@@ -48,7 +49,8 @@ async def admin_stats(message: Message):
     )
 
 
-@admin_router.message(F.text.in_({"📥 Excel hisobot", "/export"}))
+@admin_router.message(F.text == "📥 Excel hisobot")
+@admin_router.message(Command("export"))
 async def admin_export(message: Message):
     rows = await get_all_registrations()
     if not rows:
@@ -67,7 +69,8 @@ async def admin_export(message: Message):
 
 # ───── RESET ─────
 
-@admin_router.message(F.text.in_({"🗑️ Bazani tozalash", "/reset"}))
+@admin_router.message(F.text == "🗑️ Bazani tozalash")
+@admin_router.message(Command("reset"))
 async def admin_reset_ask(message: Message):
     total = await count_all()
     await message.answer(
@@ -97,7 +100,8 @@ async def admin_reset_cancel(callback: CallbackQuery):
 
 # ───── BROADCAST ─────
 
-@admin_router.message(F.text.in_({"📢 Xabar yuborish", "/broadcast"}))
+@admin_router.message(F.text == "📢 Xabar yuborish")
+@admin_router.message(Command("broadcast"))
 async def admin_broadcast_ask(message: Message, state: FSMContext):
     await state.set_state(Broadcast.waiting_for_message)
     await message.answer(
