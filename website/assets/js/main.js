@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   highlightActiveNav();
   initScrollReveal();
   initFaq();
+  initCountUp();
+  initScrollTop();
 });
 
 function initNav() {
@@ -100,6 +102,42 @@ function showErrors(form, errors) {
 
 function clearErrors(form) {
   form.querySelectorAll(".field-error").forEach((el) => (el.textContent = ""));
+}
+
+function initCountUp() {
+  if (!("IntersectionObserver" in window)) return;
+  const nums = document.querySelectorAll(".stat-number[data-target]");
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = parseInt(el.dataset.target);
+      const suffix = el.dataset.suffix || "";
+      let current = 0;
+      const step = target / 60;
+      const timer = setInterval(() => {
+        current += step;
+        if (current >= target) {
+          current = target;
+          clearInterval(timer);
+        }
+        el.textContent = Math.floor(current) + suffix;
+      }, 16);
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  nums.forEach((el) => observer.observe(el));
+}
+
+function initScrollTop() {
+  const btn = document.getElementById("scroll-top");
+  if (!btn) return;
+  window.addEventListener("scroll", () => {
+    btn.classList.toggle("visible", window.scrollY > 400);
+  });
+  btn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 }
 
 function initFaq() {

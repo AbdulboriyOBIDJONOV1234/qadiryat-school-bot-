@@ -1270,6 +1270,110 @@ section {
   text-underline-offset: 3px;
 }
 
+/* ===== Stats section ===== */
+.stats-section {
+  background: linear-gradient(120deg, #0d0720 0%, #2d1b69 45%, #6b21a8 100%);
+  padding: var(--space-xxl) 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gutter);
+  text-align: center;
+}
+
+.stat-number {
+  font-family: var(--font-heading);
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1;
+  background: linear-gradient(135deg, #4ade80, #86efac);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: var(--space-sm);
+}
+
+@media (max-width: 640px) {
+  .stat-number { font-size: 48px; }
+  .stats-grid { gap: var(--space-xl); }
+}
+
+/* ===== Floating buttons ===== */
+.float-buttons {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 999;
+}
+
+.float-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  text-decoration: none;
+}
+
+.float-btn:hover {
+  transform: scale(1.15) translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+}
+
+.float-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.float-telegram {
+  background: #229ED9;
+  color: #fff;
+  animation: float-pulse 3s ease-in-out infinite;
+}
+
+.float-top {
+  background: #6b21a8;
+  color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease;
+}
+
+.float-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@keyframes float-pulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(34, 158, 217, 0.4); }
+  50% { box-shadow: 0 4px 32px rgba(34, 158, 217, 0.7); }
+}
+
+@media (max-width: 640px) {
+  .float-buttons { right: 16px; bottom: 16px; }
+  .float-btn { width: 46px; height: 46px; }
+}
+
 /* ===== Scroll reveal ===== */
 .reveal {
   opacity: 0;
