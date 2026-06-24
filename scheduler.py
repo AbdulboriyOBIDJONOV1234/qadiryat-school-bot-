@@ -10,7 +10,6 @@ from database import (
     count_this_week,
     count_today,
     count_users,
-    get_all_user_ids,
     get_unreminded_registrations,
     mark_reminded,
 )
@@ -24,28 +23,27 @@ DAY_NAMES = [
 
 
 async def send_daily_hours(bot: Bot, admin_id: int) -> None:
-    """Har kuni 8:00 UZT da barcha foydalanuvchilarga ish vaqti xabari."""
+    """Har kuni 8:00 UZT da adminga bugungi holat xabari."""
+    from database import count_today
     now = datetime.now(UZT)
     day = DAY_NAMES[now.weekday()]
+    today_count = await count_today()
+
+    if today_count == 0:
+        ariza_text = "📭 Bugun hali hech kim ro'yxatdan o'tmagan."
+    else:
+        ariza_text = f"📋 Bugun <b>{today_count} ta</b> yangi ariza keldi!"
 
     text = (
-        f"🌅 <b>Xayrli tong!</b>\n\n"
-        f"📅 Bugun {day}, {now.strftime('%d.%m.%Y')}\n\n"
-        f"⏰ <b>Qabul vaqti:</b> 9:00 — 18:00\n\n"
-        f"📝 Ro'yxatdan o'tish uchun:\n"
-        f"👉 /start"
+        f"🌅 <b>Xayrli tong!</b>\n"
+        f"📅 {day}, {now.strftime('%d.%m.%Y')}\n\n"
+        f"{ariza_text}"
     )
 
-    user_ids = await get_all_user_ids()
-    ok = 0
-    for uid in user_ids:
-        try:
-            await bot.send_message(uid, text)
-            ok += 1
-        except Exception:
-            pass
-
-    logging.info("Kunlik xabar: %d/%d foydalanuvchiga yuborildi", ok, len(user_ids))
+    try:
+        await bot.send_message(admin_id, text)
+    except Exception:
+        logging.exception("Kunlik xabar adminga yuborib bo'lmadi")
 
 
 async def send_weekly_report(bot: Bot, admin_id: int) -> None:
