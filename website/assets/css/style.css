@@ -1272,7 +1272,7 @@ section {
 
 /* ===== Stats section ===== */
 .stats-section {
-  background: linear-gradient(120deg, #0d0720 0%, #2d1b69 45%, #6b21a8 100%);
+  background: linear-gradient(120deg, #000a1e 0%, #002147 55%, #003366 100%);
   padding: var(--space-xxl) 0;
 }
 
@@ -1288,7 +1288,7 @@ section {
   font-size: 72px;
   font-weight: 700;
   line-height: 1;
-  background: linear-gradient(135deg, #4ade80, #86efac);
+  background: linear-gradient(135deg, #fed488, #f5c040);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1351,7 +1351,7 @@ section {
 }
 
 .float-top {
-  background: #6b21a8;
+  background: var(--color-primary-container);
   color: #fff;
   opacity: 0;
   pointer-events: none;
