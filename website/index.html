@@ -288,11 +288,20 @@
             </div>
           </div>
           <div class="form-grid">
-            <div class="field field-full">
-              <label for="location">Yashash manzili</label>
-              <input type="text" id="location" name="location" placeholder="Manzilingizni kiriting" required>
+            <div class="field">
+              <label for="tuman">Tuman / Shahar</label>
+              <select id="tuman" name="tuman" required>
+                <option value="">— Tanlang —</option>
+              </select>
               <div class="field-error" data-error-for="location"></div>
             </div>
+            <div class="field">
+              <label for="mfy">MFY / Mahalla</label>
+              <select id="mfy" name="mfy" required disabled>
+                <option value="">— Avval tuman tanlang —</option>
+              </select>
+            </div>
+            <input type="hidden" id="location" name="location">
           </div>
           <button type="submit" class="btn btn-primary btn-block">Yuborish</button>
           <div id="form-message" class="form-message"></div>
@@ -475,6 +484,7 @@
     </button>
   </div>
 
+  <script src="assets/js/locations.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>

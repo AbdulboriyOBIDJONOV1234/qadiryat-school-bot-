@@ -8,6 +8,7 @@ const API_BASE = "https://qadriyat-school-bot.onrender.com";
 
 document.addEventListener("DOMContentLoaded", () => {
   initDarkMode();
+  initLocationDropdowns();
   initNav();
   initRegistrationForm();
   highlightActiveNav();
@@ -109,6 +110,51 @@ function showErrors(form, errors) {
 
 function clearErrors(form) {
   form.querySelectorAll(".field-error").forEach((el) => (el.textContent = ""));
+}
+
+function initLocationDropdowns() {
+  const tumanEl = document.getElementById("tuman");
+  const mfyEl   = document.getElementById("mfy");
+  const locEl   = document.getElementById("location");
+  if (!tumanEl || !mfyEl || !locEl) return;
+
+  // Populate tuman dropdown
+  Object.keys(FARGONA_MFY).forEach((t) => {
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    tumanEl.appendChild(opt);
+  });
+
+  tumanEl.addEventListener("change", () => {
+    const tuman = tumanEl.value;
+    mfyEl.innerHTML = "";
+    if (!tuman) {
+      mfyEl.disabled = true;
+      mfyEl.innerHTML = '<option value="">— Avval tuman tanlang —</option>';
+      locEl.value = "";
+      return;
+    }
+    mfyEl.disabled = false;
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "— MFY tanlang —";
+    mfyEl.appendChild(placeholder);
+
+    (FARGONA_MFY[tuman] || []).forEach((mfy) => {
+      const opt = document.createElement("option");
+      opt.value = mfy;
+      opt.textContent = mfy;
+      mfyEl.appendChild(opt);
+    });
+    locEl.value = "";
+  });
+
+  mfyEl.addEventListener("change", () => {
+    const t = tumanEl.value;
+    const m = mfyEl.value;
+    locEl.value = m ? `${t}, ${m}` : t;
+  });
 }
 
 function initDarkMode() {
