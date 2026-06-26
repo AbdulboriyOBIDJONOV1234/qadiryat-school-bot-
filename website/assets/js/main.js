@@ -115,8 +115,19 @@ function clearErrors(form) {
 function initLocationDropdowns() {
   const tumanEl = document.getElementById("tuman");
   const mfyEl   = document.getElementById("mfy");
+  const kochaEl = document.getElementById("kocha");
   const locEl   = document.getElementById("location");
   if (!tumanEl || !mfyEl || !locEl) return;
+
+  function updateLocation() {
+    const t = tumanEl.value;
+    const m = mfyEl.value;
+    const k = kochaEl ? kochaEl.value.trim() : "";
+    let val = t;
+    if (m) val += ", " + m;
+    if (k) val += ", " + k;
+    locEl.value = val;
+  }
 
   // Populate tuman dropdown
   Object.keys(FARGONA_MFY).forEach((t) => {
@@ -150,11 +161,8 @@ function initLocationDropdowns() {
     locEl.value = "";
   });
 
-  mfyEl.addEventListener("change", () => {
-    const t = tumanEl.value;
-    const m = mfyEl.value;
-    locEl.value = m ? `${t}, ${m}` : t;
-  });
+  mfyEl.addEventListener("change", updateLocation);
+  if (kochaEl) kochaEl.addEventListener("input", updateLocation);
 }
 
 function initDarkMode() {

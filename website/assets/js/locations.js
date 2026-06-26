@@ -25,13 +25,18 @@ const FARGONA_MFY = {
     "So'g'diyona MFY","Bog'ishamol MFY","Olmazar MFY","Oqtepa MFY"
   ],
   "Qo'shtepa tumani": [
-    "Sarmazor MFY","Qo'shtepa MFY","Sharq MFY","O'zbekiston MFY",
-    "Yangi hayot MFY","Mustaqillik MFY","Guliston MFY","Tinchlik MFY",
-    "Navro'z MFY","Olmazor MFY","Do'stlik MFY","Paxtakor MFY",
-    "Ipakchi MFY","Bog'iston MFY","Ko'ktepa MFY","Chimyon MFY",
-    "Chortepa MFY","Qiziltepa MFY","Markaziy MFY","Istiqlol MFY",
-    "Baxt MFY","Mehnat MFY","G'alaba MFY","Xalq MFY",
-    "Kamolot MFY","Zafarobod MFY","Yangi qishloq MFY"
+    "Avval MFY","Balandmasjid MFY","Boltako'l MFY","Bo'ston MFY",
+    "Garmdon MFY","G'ishtmon MFY","Do'rmon MFY","Do'stlik MFY",
+    "Eshonguzar MFY","Istiqbol MFY","Karnaychi MFY",
+    "Katta Beshkapa MFY","Kichik Beshkapa MFY","Langar MFY",
+    "Loyson MFY","Namuna MFY","Oqtepa MFY","Oxunboboyev MFY",
+    "Paxtakor MFY","Qamishtepa MFY","Qiyqi MFY","Qizil ariq MFY",
+    "Qorajiyda MFY","Qorakaltak MFY","Qoraqushchi MFY","Qumtepa MFY",
+    "Quyi Oqtepa MFY","Sarmazor (Sarimozor) MFY","Shahartepa MFY",
+    "Solijonobod MFY","Soybo'yi MFY","Sohibkor MFY","Surxtepa MFY",
+    "Suyuqsuv MFY","To'qtagu MFY","Vatan MFY","Xalqobod MFY",
+    "Xotinariq MFY","Xo'jaqishloq MFY","Yangiariq MFY",
+    "Yangido'kon MFY","Yo'ldoshobod MFY","O'qchi MFY"
   ],
   "Farg'ona tumani": [
     "Markaziy MFY","Mustaqillik MFY","Navro'z MFY","Do'stlik MFY",
