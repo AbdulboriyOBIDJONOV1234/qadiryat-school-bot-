@@ -1,6 +1,14 @@
 const API_BASE = "https://qadriyat-school-bot.onrender.com";
 
+// Apply saved theme ASAP (before DOMContentLoaded to avoid flicker)
+(function () {
+  const t = localStorage.getItem("theme");
+  if (t) document.documentElement.setAttribute("data-theme", t);
+})();
+
 document.addEventListener("DOMContentLoaded", () => {
+  initDarkMode();
+  initLang();
   initNav();
   initRegistrationForm();
   highlightActiveNav();
@@ -102,6 +110,67 @@ function showErrors(form, errors) {
 
 function clearErrors(form) {
   form.querySelectorAll(".field-error").forEach((el) => (el.textContent = ""));
+}
+
+function initDarkMode() {
+  const btn = document.getElementById("dark-toggle");
+  if (!btn) return;
+  btn.addEventListener("click", () => {
+    const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+  });
+}
+
+const LANGS = {
+  uz: {
+    "nav.home":       "Bosh sahifa",
+    "nav.about":      "Biz haqimizda",
+    "nav.edu":        "Ta'lim",
+    "nav.facilities": "Sharoitlar",
+    "nav.contact":    "Bog'lanish",
+    "nav.register":   "Ro'yxatdan o'tish",
+    "nav.news":       "Yangiliklar",
+  },
+  ru: {
+    "nav.home":       "Главная",
+    "nav.about":      "О нас",
+    "nav.edu":        "Обучение",
+    "nav.facilities": "Условия",
+    "nav.contact":    "Контакты",
+    "nav.register":   "Записаться",
+    "nav.news":       "Новости",
+  },
+  en: {
+    "nav.home":       "Home",
+    "nav.about":      "About Us",
+    "nav.edu":        "Education",
+    "nav.facilities": "Facilities",
+    "nav.contact":    "Contact",
+    "nav.register":   "Register",
+    "nav.news":       "News",
+  },
+};
+
+function applyLang(lang) {
+  document.documentElement.setAttribute("lang", lang === "ru" ? "ru" : lang === "en" ? "en" : "uz");
+  const dict = LANGS[lang] || LANGS.uz;
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    const key = el.getAttribute("data-i18n");
+    if (dict[key]) el.textContent = dict[key];
+  });
+  document.querySelectorAll(".lang-btn").forEach((b) => {
+    b.classList.toggle("active", b.dataset.lang === lang);
+  });
+  localStorage.setItem("lang", lang);
+}
+
+function initLang() {
+  const saved = localStorage.getItem("lang") || "uz";
+  applyLang(saved);
+  document.querySelectorAll(".lang-btn").forEach((btn) => {
+    btn.addEventListener("click", () => applyLang(btn.dataset.lang));
+  });
 }
 
 function initCountUp() {

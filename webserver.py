@@ -15,7 +15,7 @@ from validators import (
 
 WEBSITE_DIR = Path(__file__).parent / "website"
 
-PAGE_NAMES = {"index", "biz-haqimizda", "talim", "sharoitlar"}
+PAGE_NAMES = {"index", "biz-haqimizda", "talim", "sharoitlar", "yangiliklar", "404"}
 
 CORS_HEADERS = {
     "Access-Control-Allow-Origin": "*",

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Sahifa topilmadi | Qadriyat Maktabi</title>
+  <link rel="icon" href="assets/img/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .not-found {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: var(--space-xxl) var(--margin-mobile);
+    }
+    .not-found-code {
+      font-family: var(--font-heading);
+      font-size: 120px;
+      font-weight: 700;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--color-primary-container), var(--color-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .not-found h2 { margin: var(--space-md) 0 var(--space-sm); }
+    .not-found p  { margin-bottom: var(--space-xl); max-width: 400px; }
+    @media (max-width: 640px) { .not-found-code { font-size: 80px; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="nav-brand">
+        <img src="assets/img/logo.png" alt="Qadriyat Maktabi logotipi">
+        <span>Qadriyat<br>Maktabi</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="not-found">
+    <div>
+      <div class="not-found-code">404</div>
+      <h2>Sahifa topilmadi</h2>
+      <p>Siz izlagan sahifa mavjud emas yoki ko'chirilgan bo'lishi mumkin.</p>
+      <div class="hero-actions" style="justify-content:center;">
+        <a href="index.html" class="btn btn-primary">Bosh sahifaga qaytish</a>
+        <a href="index.html#registration" class="btn btn-ghost">Ro'yxatdan o'tish</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
