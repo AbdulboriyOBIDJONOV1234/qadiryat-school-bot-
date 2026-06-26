@@ -1,140 +1,160 @@
-// Farg'ona viloyati — tumanlar va MFYlar
+// Farg'ona viloyati — tumanlar va MFYlar (to'liq rasmiy ro'yxat)
 const FARGONA_MFY = {
   "Farg'ona shahri": [
     "Bog'ishamol MFY","Do'stlik MFY","Gulshan MFY","Istiqlol MFY",
-    "Kamolot MFY","Kosonsoy MFY","Markaziy MFY","Mustaqillik MFY",
-    "Navro'z MFY","Oqtepa MFY","Tinchlik MFY","Xalq MFY",
-    "Yangi Marg'ilon MFY","Yashillik MFY","Zafarobod MFY",
-    "Olmazar MFY","Bog'cha MFY","Ipakchi MFY","Sharq MFY",
-    "So'g'diyona MFY","Chimyon MFY","Yunusobod MFY","Qahramon MFY",
-    "Neftchi MFY","Intizom MFY","Baxt MFY","Mehnat MFY"
+    "Kamolot MFY","Markaziy MFY","Mustaqillik MFY","Navro'z MFY",
+    "Oqtepa MFY","Tinchlik MFY","Xalq MFY","Yangi Marg'ilon MFY",
+    "Yashillik MFY","Zafarobod MFY","Olmazar MFY","Sharq MFY"
   ],
   "Qo'qon shahri": [
     "Markaziy MFY","Mustaqillik MFY","Navro'z MFY","Do'stlik MFY",
     "Gulshan MFY","Istiqlol MFY","Tinchlik MFY","Yangi hayot MFY",
     "Kamolot MFY","Baxt MFY","Mehnat MFY","Xalq MFY",
-    "Zafarobod MFY","Bog'cha MFY","Sharq MFY","Guliston MFY",
-    "Ipakchi MFY","So'g'diyona MFY","Neftchi MFY","Qahramon MFY",
-    "Kosonsoy MFY","Oqtepa MFY","Olmazar MFY","Yunusobod MFY"
+    "Zafarobod MFY","Sharq MFY","Guliston MFY","Oqtepa MFY"
   ],
   "Marg'ilon shahri": [
     "Markaziy MFY","Mustaqillik MFY","Do'stlik MFY","Gulshan MFY",
     "Istiqlol MFY","Navro'z MFY","Tinchlik MFY","Yangi hayot MFY",
     "Kamolot MFY","Baxt MFY","Mehnat MFY","Xalq MFY",
-    "Zafarobod MFY","Sharq MFY","Guliston MFY","Ipakchi MFY",
-    "So'g'diyona MFY","Bog'ishamol MFY","Olmazar MFY","Oqtepa MFY"
+    "Zafarobod MFY","Sharq MFY","Guliston MFY","Oqtepa MFY"
   ],
+
+  // ── 15 TUMAN ──────────────────────────────────────────────────────
+  "Oltiariq tumani": [
+    "Azamat MFY","Beglar MFY","Bog'dorchilik MFY","Bo'ston MFY",
+    "Burhoniddin Marg'inoniy MFY","Cho'ldiguliston MFY",
+    "Dexqonobod MFY","Do'stlik MFY","Fayzobod MFY","Guliston MFY",
+    "Jarqo'rg'on MFY","Katput MFY","Kitobdor MFY","Navoiy MFY",
+    "Oltiariq MFY","Oqariq MFY","Oqbuyra MFY","Poloson MFY",
+    "Povulg'on MFY","Qapchug'ay MFY","Qaxramon MFY","Qiziltepa MFY",
+    "Shalola MFY","Tinchlik MFY","To'qimachi MFY","Tursunbobo MFY",
+    "Yangiarab MFY","Yangihayot MFY","Yangiturmush MFY",
+    "Zilol MFY","Zilxa MFY"
+  ],
+
+  "Bag'dod tumani": [
+    "Amirobod MFY","Bag'dod MFY","Bog'ishamol MFY","Bo'ston MFY",
+    "Chuvalanchi MFY","Do'stlik MFY","Elchi MFY","Guliston MFY",
+    "Irgali MFY","Matqulobod MFY","Maylavoy MFY","Mirzobod MFY",
+    "Navbahor MFY","Navro'z MFY","Nurobod MFY","Olchin MFY",
+    "Qahramon MFY","Qirqboldi MFY","Qoraterak MFY","Quva MFY",
+    "Samandarak MFY","Tinchlik MFY","Ultarma MFY","Xitoy MFY",
+    "Yangiqishloq MFY","Zafar MFY"
+  ],
+
+  "Beshariq tumani": [
+    "Andarxon MFY","Beshariq MFY","Bofanda MFY","Chimboy MFY",
+    "Dashqobod MFY","Dehqonobod MFY","Do'stlik MFY","Fayzobod MFY",
+    "Firdavsi MFY","Guliston MFY","Humo MFY","Iftixor MFY",
+    "Navro'z MFY","Oqqush MFY","Rapqon MFY","Shodlik MFY",
+    "To'qimachi MFY","Tovush MFY","Vatan MFY","Yakkatut MFY",
+    "Yangihayot MFY","Zarshunos MFY"
+  ],
+
+  "Buvayda tumani": [
+    "Alqor MFY","Begobod MFY","Buvayda MFY","Do'stlik MFY",
+    "Elatan MFY","Jalayer MFY","Kulollik MFY","Mazra MFY",
+    "Muyan MFY","Oqqo'rg'on MFY","Qorachuyut MFY","Qorakaltak MFY",
+    "Qoraqushchi MFY","Qo'ng'irot MFY","Sho'r mahalla MFY",
+    "To'qquzariq MFY","Uzun MFY","Yangiqishloq MFY",
+    "Yangiqo'rg'on MFY","Zarariq MFY"
+  ],
+
+  "Dang'ara tumani": [
+    "Baxt MFY","Bog'ishamol MFY","Chuda MFY","Dang'ara MFY",
+    "Do'stlik MFY","Firdavsi MFY","Guncha MFY","Katta Turk MFY",
+    "Nayman MFY","Navro'z MFY","Oqtepa MFY","Pishqaran MFY",
+    "Qashqar MFY","Qumariq MFY","Sahiylik MFY","Shodlik MFY",
+    "Tomosha MFY","To'da MFY","Tumariq MFY","Yangihayot MFY",
+    "Yuqori Turk MFY"
+  ],
+
+  "Farg'ona tumani": [
+    "Avval MFY","Barqaror hamjixatlik MFY","Beruniy MFY","Bo'ston MFY",
+    "Bo'stonobod MFY","Chimyon MFY","Damko'l MFY","Dilkusho MFY",
+    "Guliston MFY","Guzar MFY","Hosilot MFY","Kaptarxona MFY",
+    "Log'on MFY","Marg'ilon MFY","Mehnatobod MFY","Mindonobod MFY",
+    "Navro'z MFY","Novkent MFY","Obod MFY","Oqtom MFY",
+    "Qo'rg'ontepa MFY","Sanoat MFY","Satkak MFY","Shohimardon MFY",
+    "Shohimardonobod MFY","Tinchlik MFY","Toshqo'rg'on Aziz MFY",
+    "Vaziyo MFY","Vodil MFY","Xo'ja Ahmad Vale MFY",
+    "Xonqiz MFY","Xurshidi Tobon MFY","Yangi asr MFY",
+    "Yangi yo'l MFY","Yangiobod MFY","Yambaroq MFY","Yordon MFY",
+    "Yoshlik MFY","Yoyilma MFY","Yuqori Vodil MFY","Yuksalish MFY"
+  ],
+
+  "Furqat tumani": [
+    "Boychechak MFY","Do'stlik MFY","Eshon MFY","Gallaxona MFY",
+    "Inshakor MFY","Kalish MFY","Ko'kko'z MFY","Navbahor MFY",
+    "Navro'z MFY","Qo'qonboy MFY","Qulibek MFY","Shodlik MFY",
+    "Tomosha MFY","To'lqin MFY","Yangihayot MFY"
+  ],
+
   "Qo'shtepa tumani": [
-    "Avval MFY","Balandmasjid MFY","Boltako'l MFY","Bo'ston MFY",
-    "Garmdon MFY","G'ishtmon MFY","Do'rmon MFY","Do'stlik MFY",
-    "Eshonguzar MFY","Istiqbol MFY","Karnaychi MFY",
+    "Avval MFY","Balandmasjid MFY","Boltako'l MFY","Borot MFY",
+    "Bo'ston MFY","Garmdon MFY","G'ishtmon MFY","Do'rmon MFY",
+    "Do'stlik MFY","Eshonguzar MFY","Istiqbol MFY","Karnaychi MFY",
     "Katta Beshkapa MFY","Kichik Beshkapa MFY","Langar MFY",
     "Loyson MFY","Namuna MFY","Oqtepa MFY","Oxunboboyev MFY",
     "Paxtakor MFY","Qamishtepa MFY","Qiyqi MFY","Qizil ariq MFY",
     "Qorajiyda MFY","Qorakaltak MFY","Qoraqushchi MFY","Qumtepa MFY",
-    "Quyi Oqtepa MFY","Sarmazor (Sarimozor) MFY","Shahartepa MFY",
+    "Quyi Oqtepa MFY","Sarmazor MFY","Shahartepa MFY",
     "Solijonobod MFY","Soybo'yi MFY","Sohibkor MFY","Surxtepa MFY",
     "Suyuqsuv MFY","To'qtagu MFY","Vatan MFY","Xalqobod MFY",
     "Xotinariq MFY","Xo'jaqishloq MFY","Yangiariq MFY",
     "Yangido'kon MFY","Yo'ldoshobod MFY","O'qchi MFY"
   ],
-  "Farg'ona tumani": [
-    "Markaziy MFY","Mustaqillik MFY","Navro'z MFY","Do'stlik MFY",
-    "Gulshan MFY","Istiqlol MFY","Tinchlik MFY","Yangi hayot MFY",
-    "Kamolot MFY","Baxt MFY","Mehnat MFY","Xalq MFY",
-    "Zafarobod MFY","Sharq MFY","Guliston MFY","Ipakchi MFY",
-    "Paxtakor MFY","Bog'iston MFY","Ko'ktepa MFY","Olmazor MFY",
-    "Qiziltepa MFY","G'alaba MFY","Yangi qishloq MFY","So'g'diyona MFY"
-  ],
-  "Oltiariq tumani": [
-    "Oltiariq MFY","Markaziy MFY","Mustaqillik MFY","Navro'z MFY",
-    "Do'stlik MFY","Gulshan MFY","Istiqlol MFY","Tinchlik MFY",
-    "Yangi hayot MFY","Kamolot MFY","Baxt MFY","Mehnat MFY",
-    "Xalq MFY","Zafarobod MFY","Sharq MFY","Guliston MFY",
-    "Ipakchi MFY","Paxtakor MFY","Ko'ktepa MFY","G'alaba MFY"
-  ],
-  "Furqat tumani": [
-    "Furqat MFY","Markaziy MFY","Mustaqillik MFY","Navro'z MFY",
-    "Do'stlik MFY","Gulshan MFY","Istiqlol MFY","Tinchlik MFY",
-    "Yangi hayot MFY","Kamolot MFY","Baxt MFY","Mehnat MFY",
-    "Xalq MFY","Zafarobod MFY","Sharq MFY","Guliston MFY",
-    "Paxtakor MFY","Ko'ktepa MFY","G'alaba MFY","Olmazor MFY"
-  ],
+
   "Quva tumani": [
-    "Quva MFY","Markaziy MFY","Mustaqillik MFY","Navro'z MFY",
-    "Do'stlik MFY","Gulshan MFY","Istiqlol MFY","Tinchlik MFY",
-    "Yangi hayot MFY","Kamolot MFY","Baxt MFY","Mehnat MFY",
-    "Xalq MFY","Zafarobod MFY","Sharq MFY","Guliston MFY",
-    "Paxtakor MFY","Ko'ktepa MFY","G'alaba MFY","Ipakchi MFY"
+    "Akbarobod MFY","Al-Farg'oniy MFY","Bahor MFY","Bayaut MFY",
+    "Baynalminal MFY","Bo'ston MFY","Do'stlik MFY","Guliston MFY",
+    "Ittifoq MFY","Kankan MFY","Madaniyat MFY","Mustaqillik MFY",
+    "Navro'z MFY","Pastki Qo'qon MFY","Qayirma MFY","Qoraqum MFY",
+    "Shodlik MFY","Turk MFY","Vatan MFY","Yozyovon MFY","Zamindor MFY"
   ],
+
   "Rishton tumani": [
-    "Rishton MFY","Markaziy MFY","Mustaqillik MFY","Navro'z MFY",
-    "Do'stlik MFY","Gulshan MFY","Istiqlol MFY","Tinchlik MFY",
-    "Yangi hayot MFY","Kamolot MFY","Baxt MFY","Mehnat MFY",
-    "Xalq MFY","Zafarobod MFY","Sharq MFY","Guliston MFY",
-    "Paxtakor MFY","Ko'ktepa MFY","G'alaba MFY","Ipakchi MFY"
+    "Amirobod MFY","Avaza MFY","Bo'ston MFY","Dehqonobod MFY",
+    "Do'stlik MFY","Dutir MFY","Guncha MFY","Kulollik MFY",
+    "Markaz MFY","Mehnatingiz MFY","Navbahor MFY","Pandigon MFY",
+    "Qahramon MFY","Qariq MFY","Rishton MFY","Sohibkor MFY",
+    "To'qimachi MFY","To'da MFY","Uchariq MFY","Zohidon MFY"
   ],
+
   "So'x tumani": [
-    "So'x MFY","Markaziy MFY","Mustaqillik MFY","Navro'z MFY",
-    "Do'stlik MFY","Gulshan MFY","Istiqlol MFY","Tinchlik MFY",
-    "Yangi hayot MFY","Kamolot MFY","Baxt MFY","Mehnat MFY",
-    "Xalq MFY","Zafarobod MFY","Sharq MFY","Guliston MFY",
-    "Paxtakor MFY","Ko'ktepa MFY","G'alaba MFY","Ipakchi MFY"
+    "Chashma MFY","Devayron MFY","G'aznov MFY","Hazrati Ali MFY",
+    "Hushyor MFY","Lenbur MFY","Mulgon MFY","Navobod MFY",
+    "Qal'a MFY","Qal'acha MFY","Ravon MFY","Sarikanda MFY",
+    "So'x MFY","Sohibkor MFY","Tul MFY","Varzik MFY"
   ],
+
   "Toshloq tumani": [
-    "Toshloq MFY","Markaziy MFY","Mustaqillik MFY","Navro'z MFY",
-    "Do'stlik MFY","Gulshan MFY","Istiqlol MFY","Tinchlik MFY",
-    "Yangi hayot MFY","Kamolot MFY","Baxt MFY","Mehnat MFY",
-    "Xalq MFY","Zafarobod MFY","Sharq MFY","Guliston MFY",
-    "Paxtakor MFY","Ko'ktepa MFY","G'alaba MFY","Ipakchi MFY"
+    "Arabmazor MFY","Bo'ston MFY","Guzarboshi MFY","Kumtepa MFY",
+    "Mevazor MFY","Pandigan MFY","Quyi Avazboy MFY",
+    "Quyi yakkatut MFY","Sadda MFY","Soybo'yi MFY","Toshloq MFY",
+    "Turvat MFY","Uchariq MFY","Ucholish MFY","Uzunko'cha MFY",
+    "Xo'jariq MFY","Yoshlik MFY","Yuqori Avazboy MFY",
+    "Yuqori qishloq MFY","Zarkent MFY"
   ],
+
   "Uchko'prik tumani": [
-    "Uchko'prik MFY","Markaziy MFY","Mustaqillik MFY","Navro'z MFY",
-    "Do'stlik MFY","Gulshan MFY","Istiqlol MFY","Tinchlik MFY",
-    "Yangi hayot MFY","Kamolot MFY","Baxt MFY","Mehnat MFY",
-    "Xalq MFY","Zafarobod MFY","Sharq MFY","Guliston MFY",
-    "Paxtakor MFY","Ko'ktepa MFY","G'alaba MFY","Ipakchi MFY"
+    "Begobod MFY","Chorgu MFY","Do'stlik MFY","Guncha MFY",
+    "Katta Qashqar MFY","Kenagas MFY","Kumushkent MFY",
+    "Mirzaxo'ja MFY","Navro'z MFY","Palaxon MFY","Qoqon MFY",
+    "Qulariq MFY","Sariqor MFY","Shodlik MFY","To'qimachi MFY",
+    "Uchko'prik MFY","Xasanqora MFY","Yangichek MFY"
   ],
+
   "O'zbekiston tumani": [
-    "O'zbekiston MFY","Markaziy MFY","Mustaqillik MFY","Navro'z MFY",
-    "Do'stlik MFY","Gulshan MFY","Istiqlol MFY","Tinchlik MFY",
-    "Yangi hayot MFY","Kamolot MFY","Baxt MFY","Mehnat MFY",
-    "Xalq MFY","Zafarobod MFY","Sharq MFY","Guliston MFY",
-    "Paxtakor MFY","Ko'ktepa MFY","G'alaba MFY","Ipakchi MFY"
+    "Buzuqqo'rg'on MFY","Chek MFY","Katta Tagob MFY","Kudash MFY",
+    "Nursux MFY","Qayqobod MFY","Qo'rg'oncha MFY",
+    "Sho'rqishloq MFY","Uchtepa MFY","Yaypan MFY","Zinasha MFY"
   ],
+
   "Yozyovon tumani": [
-    "Yozyovon MFY","Markaziy MFY","Mustaqillik MFY","Navro'z MFY",
-    "Do'stlik MFY","Gulshan MFY","Istiqlol MFY","Tinchlik MFY",
-    "Yangi hayot MFY","Kamolot MFY","Baxt MFY","Mehnat MFY",
-    "Xalq MFY","Zafarobod MFY","Sharq MFY","Guliston MFY",
-    "Paxtakor MFY","Ko'ktepa MFY","G'alaba MFY","Ipakchi MFY"
-  ],
-  "Dang'ara tumani": [
-    "Dang'ara MFY","Markaziy MFY","Mustaqillik MFY","Navro'z MFY",
-    "Do'stlik MFY","Gulshan MFY","Istiqlol MFY","Tinchlik MFY",
-    "Yangi hayot MFY","Kamolot MFY","Baxt MFY","Mehnat MFY",
-    "Xalq MFY","Zafarobod MFY","Sharq MFY","Guliston MFY",
-    "Paxtakor MFY","Ko'ktepa MFY","G'alaba MFY","Ipakchi MFY"
-  ],
-  "Beshariq tumani": [
-    "Beshariq MFY","Markaziy MFY","Mustaqillik MFY","Navro'z MFY",
-    "Do'stlik MFY","Gulshan MFY","Istiqlol MFY","Tinchlik MFY",
-    "Yangi hayot MFY","Kamolot MFY","Baxt MFY","Mehnat MFY",
-    "Xalq MFY","Zafarobod MFY","Sharq MFY","Guliston MFY",
-    "Paxtakor MFY","Ko'ktepa MFY","G'alaba MFY","Ipakchi MFY"
-  ],
-  "Buvayda tumani": [
-    "Buvayda MFY","Markaziy MFY","Mustaqillik MFY","Navro'z MFY",
-    "Do'stlik MFY","Gulshan MFY","Istiqlol MFY","Tinchlik MFY",
-    "Yangi hayot MFY","Kamolot MFY","Baxt MFY","Mehnat MFY",
-    "Xalq MFY","Zafarobod MFY","Sharq MFY","Guliston MFY",
-    "Paxtakor MFY","Ko'ktepa MFY","G'alaba MFY","Ipakchi MFY"
-  ],
-  "Baliqchi tumani": [
-    "Baliqchi MFY","Markaziy MFY","Mustaqillik MFY","Navro'z MFY",
-    "Do'stlik MFY","Gulshan MFY","Istiqlol MFY","Tinchlik MFY",
-    "Yangi hayot MFY","Kamolot MFY","Baxt MFY","Mehnat MFY",
-    "Xalq MFY","Zafarobod MFY","Sharq MFY","Guliston MFY",
-    "Paxtakor MFY","Ko'ktepa MFY","G'alaba MFY","Ipakchi MFY"
+    "Bahor MFY","Bo'ston MFY","Do'stlik MFY","Guliston MFY",
+    "Ishtirxon MFY","Karabish MFY","Qorasakal MFY","Qatortol MFY",
+    "Qoratepa MFY","Quyi Yozyovon MFY","Suyuqsuv MFY","Tagob MFY",
+    "Tosh hovuz MFY","Yozyovon MFY","Yozyovonboshi MFY"
   ],
 };
