@@ -8,7 +8,6 @@ const API_BASE = "https://qadriyat-school-bot.onrender.com";
 
 document.addEventListener("DOMContentLoaded", () => {
   initDarkMode();
-  initLang();
   initNav();
   initRegistrationForm();
   highlightActiveNav();
@@ -122,7 +121,8 @@ function initDarkMode() {
   });
 }
 
-const LANGS = {
+// lang switcher removed
+const LANGS_UNUSED = {
   uz: {
     "nav.home":       "Bosh sahifa",
     "nav.about":      "Biz haqimizda",
@@ -182,26 +182,6 @@ const LANGS = {
   },
 };
 
-function applyLang(lang) {
-  document.documentElement.setAttribute("lang", lang === "ru" ? "ru" : lang === "en" ? "en" : "uz");
-  const dict = LANGS[lang] || LANGS.uz;
-  document.querySelectorAll("[data-i18n]").forEach((el) => {
-    const key = el.getAttribute("data-i18n");
-    if (dict[key]) el.textContent = dict[key];
-  });
-  document.querySelectorAll(".lang-btn").forEach((b) => {
-    b.classList.toggle("active", b.dataset.lang === lang);
-  });
-  localStorage.setItem("lang", lang);
-}
-
-function initLang() {
-  const saved = localStorage.getItem("lang") || "uz";
-  applyLang(saved);
-  document.querySelectorAll(".lang-btn").forEach((btn) => {
-    btn.addEventListener("click", () => applyLang(btn.dataset.lang));
-  });
-}
 
 function initCountUp() {
   if (!("IntersectionObserver" in window)) return;
