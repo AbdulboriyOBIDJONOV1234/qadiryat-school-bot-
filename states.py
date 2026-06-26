@@ -7,7 +7,9 @@ class Registration(StatesGroup):
     patronymic = State()
     birth_date = State()
     grade = State()
-    location = State()
+    tuman = State()
+    mfy = State()
+    kocha = State()
     phone = State()
 
 

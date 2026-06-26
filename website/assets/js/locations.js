@@ -6,12 +6,6 @@ const FARGONA_MFY = {
     "Oqtepa MFY","Tinchlik MFY","Xalq MFY","Yangi Marg'ilon MFY",
     "Yashillik MFY","Zafarobod MFY","Olmazar MFY","Sharq MFY"
   ],
-  "Qo'qon shahri": [
-    "Markaziy MFY","Mustaqillik MFY","Navro'z MFY","Do'stlik MFY",
-    "Gulshan MFY","Istiqlol MFY","Tinchlik MFY","Yangi hayot MFY",
-    "Kamolot MFY","Baxt MFY","Mehnat MFY","Xalq MFY",
-    "Zafarobod MFY","Sharq MFY","Guliston MFY","Oqtepa MFY"
-  ],
   "Marg'ilon shahri": [
     "Markaziy MFY","Mustaqillik MFY","Do'stlik MFY","Gulshan MFY",
     "Istiqlol MFY","Navro'z MFY","Tinchlik MFY","Yangi hayot MFY",

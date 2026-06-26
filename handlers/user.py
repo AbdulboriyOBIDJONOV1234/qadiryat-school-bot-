@@ -3,14 +3,16 @@ import logging
 from aiogram import Bot, F, Router
 from aiogram.filters import Command, CommandStart
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message, ReplyKeyboardRemove
+from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
+
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from config import ADMIN_ID
 from database import add_registration, format_dt, get_user_registrations, save_user
 from keyboards import get_phone_keyboard, get_share_keyboard, get_user_keyboard
+from location_data import MFY, TUMANLAR
 from states import Registration
 from validators import (
-    is_valid_location,
     is_valid_name_part,
     normalize_phone,
     parse_birth_date,
@@ -18,6 +20,25 @@ from validators import (
 )
 
 user_router = Router()
+
+
+def make_tuman_kb() -> InlineKeyboardMarkup:
+    buttons = [
+        [InlineKeyboardButton(text=t, callback_data=f"tuman:{i}")]
+        for i, t in enumerate(TUMANLAR)
+    ]
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+
+def make_mfy_kb(tuman: str) -> InlineKeyboardMarkup:
+    mfylar = MFY.get(tuman, [])
+    rows = []
+    for i in range(0, len(mfylar), 2):
+        row = [InlineKeyboardButton(text=mfylar[i], callback_data=f"mfy:{i}")]
+        if i + 1 < len(mfylar):
+            row.append(InlineKeyboardButton(text=mfylar[i+1], callback_data=f"mfy:{i+1}"))
+        rows.append(row)
+    return InlineKeyboardMarkup(inline_keyboard=rows)
 
 WELCOME_TEXT = (
     "🎓✨ <b>Assalomu alaykum!</b>\n\n"
@@ -43,7 +64,9 @@ ASK_LAST_NAME = "👤 Familiyangizni kiriting:"
 ASK_PATRONYMIC = "👨‍👦 Otangizning ismini (sharifingizni) kiriting:"
 ASK_BIRTH_DATE = "🎂 Tug'ilgan sanangizni kiriting (kun.oy.yil, masalan: 15.03.2012):"
 ASK_GRADE = "🏫 Nechanchi sinfga o'qishga kirmoqchisiz? (1 dan 11 gacha raqam kiriting):"
-ASK_LOCATION = "📍 Qaysi hudud / tuman / shahardan ekanligingizni yozing:"
+ASK_TUMAN = "📍 Tumaningizni tanlang:"
+ASK_MFY   = "🏘 MFYingizni tanlang:"
+ASK_KOCHA = "🏠 Ko'cha va uy raqamini yozing (masalan: Sharq ko'chasi 28-uy):"
 ASK_PHONE = (
     "📞 Va nihoyat, aloqa uchun telefon raqamingizni yuboring "
     "(pastdagi tugma orqali yoki qo'lda kiriting, masalan: +998901234567):"
@@ -299,8 +322,8 @@ async def process_grade(message: Message, state: FSMContext):
         await message.answer("⚠️ Iltimos, 1 dan 11 gacha bo'lgan sinf raqamini kiriting.")
         return
     await state.update_data(grade=grade)
-    await state.set_state(Registration.location)
-    await message.answer(ASK_LOCATION)
+    await state.set_state(Registration.tuman)
+    await message.answer(ASK_TUMAN, reply_markup=make_tuman_kb())
 
 
 @user_router.message(Registration.grade)
@@ -308,20 +331,57 @@ async def process_grade_invalid(message: Message):
     await message.answer("⚠️ Iltimos, sinf raqamini matn ko'rinishida yozing.")
 
 
-@user_router.message(Registration.location, F.text)
-async def process_location(message: Message, state: FSMContext):
-    location = message.text.strip()
-    if not is_valid_location(location):
-        await message.answer("⚠️ Iltimos, hududingizni to'liqroq yozing.")
-        return
+# ── Tuman tanlash ──
+@user_router.message(Registration.tuman)
+async def process_tuman_msg(message: Message, state: FSMContext):
+    await message.answer(ASK_TUMAN, reply_markup=make_tuman_kb())
+
+
+@user_router.callback_query(Registration.tuman, F.data.startswith("tuman:"))
+async def process_tuman_cb(callback: CallbackQuery, state: FSMContext):
+    idx = int(callback.data.split(":")[1])
+    tuman = TUMANLAR[idx]
+    await state.update_data(tuman=tuman)
+    await state.set_state(Registration.mfy)
+    await callback.message.edit_text(
+        f"✅ Tuman: <b>{tuman}</b>\n\n{ASK_MFY}",
+        reply_markup=make_mfy_kb(tuman),
+    )
+    await callback.answer()
+
+
+# ── MFY tanlash ──
+@user_router.message(Registration.mfy)
+async def process_mfy_msg(message: Message, state: FSMContext):
+    data = await state.get_data()
+    tuman = data.get("tuman", "")
+    await message.answer(ASK_MFY, reply_markup=make_mfy_kb(tuman))
+
+
+@user_router.callback_query(Registration.mfy, F.data.startswith("mfy:"))
+async def process_mfy_cb(callback: CallbackQuery, state: FSMContext):
+    data = await state.get_data()
+    tuman = data.get("tuman", "")
+    idx = int(callback.data.split(":")[1])
+    mfy = MFY.get(tuman, [])[idx]
+    await state.update_data(mfy=mfy)
+    await state.set_state(Registration.kocha)
+    await callback.message.edit_text(
+        f"✅ Tuman: <b>{tuman}</b>\n✅ MFY: <b>{mfy}</b>",
+    )
+    await callback.message.answer(ASK_KOCHA, reply_markup=ReplyKeyboardRemove())
+    await callback.answer()
+
+
+# ── Ko'cha/uy ──
+@user_router.message(Registration.kocha, F.text)
+async def process_kocha(message: Message, state: FSMContext):
+    kocha = message.text.strip()
+    data = await state.get_data()
+    location = f"{data['tuman']}, {data['mfy']}, {kocha}"
     await state.update_data(location=location)
     await state.set_state(Registration.phone)
     await message.answer(ASK_PHONE, reply_markup=get_phone_keyboard())
-
-
-@user_router.message(Registration.location)
-async def process_location_invalid(message: Message):
-    await message.answer("⚠️ Iltimos, manzilingizni matn ko'rinishida yozing.")
 
 
 @user_router.message(Registration.phone, F.contact)
