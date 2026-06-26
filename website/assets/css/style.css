@@ -95,6 +95,10 @@
   border-color: #3d4754;
 }
 
+[data-theme="dark"] .nav-brand span {
+  color: #dde3ea;
+}
+
 [data-theme="dark"] .site-footer {
   background: #0d1117;
 }
@@ -1452,6 +1456,56 @@ section {
 @media (max-width: 640px) {
   .stat-number { font-size: 48px; }
   .stats-grid { gap: var(--space-xl); }
+}
+
+/* ===== Yangiliklar (Telegram steps) ===== */
+.tg-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+}
+
+.tg-step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  background: var(--color-surface-container-low);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+}
+
+.tg-step-num {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: #229ED9;
+  color: #fff;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tg-step strong {
+  display: block;
+  font-size: 15px;
+  color: var(--color-on-surface);
+  margin-bottom: 4px;
+}
+
+.tg-step p {
+  font-size: 14px;
+  margin: 0;
+}
+
+.tg-open-btn {
+  margin-top: var(--space-lg);
+  justify-content: center;
 }
 
 /* ===== Floating buttons ===== */
